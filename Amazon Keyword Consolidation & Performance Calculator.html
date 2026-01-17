@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Keyword Performance Calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .icon {
+            width: 32px;
+            height: 32px;
+            color: #2563eb;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-content {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #2563eb;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .summary-card {
+            padding: 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        
+        .summary-card.blue { background-color: #eff6ff; }
+        .summary-card.orange { background-color: #fff7ed; }
+        .summary-card.red { background-color: #fef2f2; }
+        .summary-card.green { background-color: #f0fdf4; }
+        
+        .summary-content {
+            flex: 1;
+        }
+        
+        .summary-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .summary-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .blue .summary-label, .blue .summary-value { color: #1d4ed8; }
+        .orange .summary-label, .orange .summary-value { color: #ea580c; }
+        .red .summary-label, .red .summary-value { color: #dc2626; }
+        .green .summary-label, .green .summary-value { color: #16a34a; }
+        
+        .upload-section {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .upload-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .upload-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        
+        .file-input {
+            display: block;
+            width: 100%;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #6b7280;
+        }
+        
+        .column-mapping {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #f0f9ff;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .weights-section {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .weight-input, .mapping-select, .filter-input, .control-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .weight-input:focus, .mapping-select:focus, .filter-input:focus, .control-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .recommendations {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .keep-section {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        
+        .remove-section {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 12px;
+        }
+        
+        .collapsible-section {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .collapsible-header {
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        .collapsible-header:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .collapsible-content {
+            padding: 16px;
+            display: none;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .collapsible-content.expanded {
+            display: block;
+        }
+        
+        .dropdown-arrow {
+            transition: transform 0.2s;
+        }
+        
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .analysis-control-panel {
+            background-color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #e5e7eb;
+        }
+        .control-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        .control-group { display: flex; flex-direction: column; gap: 4px; }
+        .control-label { font-size: 12px; font-weight: 500; color: #4b5563; }
+
+        .quick-stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .quick-stat {
+            background-color: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-value { font-size: 20px; font-weight: bold; color: #1f2937; display: block;}
+        .stat-label { font-size: 12px; color: #6b7280; }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 24px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .table-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 16px 0;
+            padding: 12px;
+            background-color: #f9fafb;
+            border-radius: 6px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #d1d5db;
+        }
+        
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        td input, td select {
+            width: 100%;
+            padding: 4px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .duplicate-row {
+            background-color: #fefce8;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+        
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        .action-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .action-elite {
+            background-color: #f0fdf4;
+            color: #16a34a;
+        }
+        
+        .action-strong {
+            background-color: #eff6ff;
+            color: #2563eb;
+        }
+        
+        .action-weak {
+            background-color: #fefce8;
+            color: #ca8a04;
+        }
+        
+        .action-remove {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        
+        .alert-warning {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            color: #92400e;
+        }
+        
+        .text-small {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .metrics-details {
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 6px;
+        }
+        
+        .font-bold {
+            font-weight: bold;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .file-stats {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: #f0f9ff;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3 id="loadingTitle">Processing Data...</h3>
+            <p id="loadingMessage">Please wait while we process your file</p>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <p id="loadingDetails" class="text-small">Starting...</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                </svg>
+                <h1>Amazon Keyword Consolidation & Performance Calculator</h1>
+            </div>
+
+            <div class="upload-section">
+                <div class="upload-header">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <h3>Upload Keyword Data</h3>
+                </div>
+                <input type="file" id="fileInput" accept=".csv,.xlsx" class="file-input">
+                <div class="text-small" style="margin-top: 8px;">
+                    Expected columns: Campaign Name, Keyword, Sales, Conversion, ACOS, Orders, ASIN, Campaign Status, Keyword Status
+                </div>
+                <div id="fileStats" class="file-stats hidden"></div>
+                
+                <div id="columnMapping" class="column-mapping">
+                    <h4 style="margin-bottom: 8px; font-weight: 600;">Map Your Columns:</h4>
+                    <div class="mapping-grid">
+                        <div><label class="text-small font-bold">Campaign Name:</label><select id="campaignColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Keyword:</label><select id="keywordColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">ASIN:</label><select id="asinColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Sales:</label><select id="salesColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Orders:</label><select id="ordersColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Conversion Rate:</label><select id="conversionColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">ACOS:</label><select id="acosColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Campaign Status:</label><select id="campaignStatusColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div><label class="text-small font-bold">Keyword Status:</label><select id="keywordStatusColumnSelect" class="mapping-select"><option value="">Select</option></select></div>
+                        <div style="display: flex; align-items: end;">
+                            <button id="applyMappingBtn" class="btn btn-primary">Apply Mapping</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card blue">
+                    <div class="summary-content">
+                        <div class="summary-label">Total Keywords</div>
+                        <div class="summary-value" id="totalKeywords">0</div>
+                    </div>
+                </div>
+                <div class="summary-card orange">
+                    <div class="summary-content">
+                        <div class="summary-label">Duplicate Keywords</div>
+                        <div class="summary-value" id="duplicateCount">0</div>
+                    </div>
+                </div>
+                <div class="summary-card red">
+                    <div class="summary-content">
+                        <div class="summary-label">Poor Performers</div>
+                        <div class="summary-value" id="removeCount">0</div>
+                    </div>
+                </div>
+                <div class="summary-card green">
+                    <div class="summary-content">
+                        <div class="summary-label">Potential Savings</div>
+                        <div class="summary-value" id="potentialSavings">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="recommendationsSection" class="recommendations" style="display: none;">
+                <h3 class="section-title" style="color: #92400e; margin-bottom: 16px;">
+                    🚨 Consolidation Recommendations & Analysis
+                </h3>
+
+                <div class="analysis-control-panel">
+                    <div class="control-row">
+                        <div class="control-group"><label class="control-label">🔍 Search Keywords</label><input type="text" id="duplicateSearchFilter" placeholder="Search..." class="control-input"></div>
+                        <div class="control-group"><label class="control-label">🛍️ ASIN</label><select id="asinFilter" class="control-input"><option value="">All ASINs</option></select></div>
+                        <div class="control-group"><label class="control-label">📊 Min. Campaigns</label><select id="minCampaignsFilter" class="control-input"><option value="2">2+ Campaigns</option><option value="3">3+</option><option value="4">4+</option></select></div>
+                        <div class="control-group"><label class="control-label">📈 Sort By</label><select id="duplicateSortFilter" class="control-input"><option value="savings-desc">Highest Savings</option><option value="campaigns-desc">Most Campaigns</option><option value="keyword-asc">Keyword A-Z</option></select></div>
+                        <div class="control-group"><label class="control-label">⚡ Status</label><select id="statusFilter" class="control-input"><option value="">All Statuses</option><option value="enabled">Enabled Keywords Only</option><option value="campaign_enabled">Enabled Campaigns Only</option></select></div>
+                        <div class="control-group"><label class="control-label">🎯 Campaign Type</label><select id="campaignTypeFilter" class="control-input"><option value="">All Types</option><option value="SP Auto">SP Auto</option><option value="SP Manual">SP Manual</option><option value="SB Video">SB Video</option><option value="SD Display">SD Display</option></select></div>
+                        <div class="control-group"><label class="control-label">⚙️ Options</label><div style="display:flex; align-items:center; height: 37px;"><input type="checkbox" id="excludeSingleOrderFilter" style="margin-right: 8px;"><label for="excludeSingleOrderFilter" class="text-small">Exclude 1-Order KWs</label></div></div>
+                    </div>
+                    <div class="quick-stats-bar">
+                        <div class="quick-stat"><span class="stat-value" id="totalDuplicatesFound">0</span><span class="stat-label">Filtered Duplicates</span></div>
+                        <div class="quick-stat"><span class="stat-value" id="campaignsToOptimize">0</span><span class="stat-label">Keywords to Pause</span></div>
+                        <div class="quick-stat"><span class="stat-value" id="totalWastedSpend">$0</span><span class="stat-label">Total Waste</span></div>
+                    </div>
+                </div>
+
+                <div id="recommendationsList" style="margin-top: 16px;"></div>
+
+                <div class="pagination-controls" id="duplicatesPagination" style="display: none;">
+                    <div><span>Showing <span id="duplicatesShowingStart">0</span>-<span id="duplicatesShowingEnd">0</span> of <span id="duplicatesTotalFiltered">0</span></span></div>
+                    <div><label class="text-small">Per page:</label><select id="duplicatesRowsPerPage" style="margin-left: 8px; margin-right: 16px;"><option value="5">5</option><option value="10" selected>10</option><option value="20">20</option></select><button id="duplicatesPrevPageBtn" class="btn btn-secondary">Previous</button><button id="duplicatesNextPageBtn" class="btn btn-secondary" style="margin-left: 8px;">Next</button></div>
+                </div>
+            </div>
+
+            <div class="weights-section">
+                <h3 class="section-title" style="margin-bottom: 16px;">Scoring Weights Configuration</h3>
+                <div class="weights-grid">
+                    <div><label class="text-small font-bold">ACOS Weight (%)</label><input type="number" id="acosWeight" value="45" min="0" max="100" class="weight-input"></div>
+                    <div><label class="text-small font-bold">Conversion Weight (%)</label><input type="number" id="conversionWeight" value="35" min="0" max="100" class="weight-input"></div>
+                    <div><label class="text-small font-bold">Sales Weight (%)</label><input type="number" id="salesWeight" value="20" min="0" max="100" class="weight-input"></div>
+                </div>
+                <div class="text-small" style="margin-top: 8px;"><span id="weightTotal">Total: 100%</span><span id="weightWarning" style="color: #dc2626; display: none;"> ⚠️ Weights should total 100%</span></div>
+            </div>
+
+            </div>
+    </div>
+
+    <script>
+        class KeywordCalculator {
+            constructor() {
+                this.keywords = [
+                    // Sample Data with new fields
+                    { id: 1, campaign: 'SP Manual | Product Targeting', name: 'b01evkv3be', sales: 9.99, conversion: 16.67, acos: 31.13, asin: 'B01ABCDEFE', orders: 1, campaignStatus: 'enabled', keywordStatus: 'enabled' },
+                    { id: 2, campaign: 'SP Auto | Competing Products', name: 'B07FR7LNXY', sales: 9.99, conversion: 7.69, acos: 63.46, asin: 'B02GHIJKLM', orders: 1, campaignStatus: 'enabled', keywordStatus: 'paused' },
+                    { id: 3, campaign: 'SD Display | Views', name: 'B07L24M2TV', sales: 105.9, conversion: 22.22, acos: 29.36, asin: 'B01ABCDEFE', orders: 5, campaignStatus: 'enabled', keywordStatus: 'enabled' },
+                    { id: 4, campaign: 'SP Manual | Keyword Targeting', name: 'B07NHKCP3K', sales: 89.91, conversion: 16.07, acos: 22.79, asin: 'B03MNOPQRS', orders: 10, campaignStatus: 'enabled', keywordStatus: 'enabled' },
+                    { id: 5, campaign: 'SP Auto | Default', name: 'B07NHKCP3K', sales: 27.97, conversion: 22.22, acos: 15.34, asin: 'B03MNOPQRS', orders: 4, campaignStatus: 'paused', keywordStatus: 'enabled' },
+                    { id: 6, campaign: 'SB Video | Product Targeting', name: 'B07NHKCP3K', sales: 49.95, conversion: 20.00, acos: 25.89, asin: 'B03MNOPQRS', orders: 6, campaignStatus: 'enabled', keywordStatus: 'enabled' }
+                ];
+                this.weights = { acos: 45, conversion: 35, sales: 20 };
+                this.results = [];
+                this.filteredDuplicates = [];
+                this.duplicates = {};
+                this.rawData = null;
+                this.uniqueAsins = new Set();
+                
+                this.duplicatesCurrentPage = 1;
+                this.duplicatesRowsPerPage = 10;
+                
+                this.initializeEventListeners();
+                this.calculateScores();
+            }
+
+            initializeEventListeners() {
+                document.getElementById('fileInput').addEventListener('change', (e) => this.handleFileUpload(e));
+                document.getElementById('applyMappingBtn').addEventListener('click', () => this.applyColumnMapping());
+                
+                ['acosWeight', 'conversionWeight', 'salesWeight'].forEach(id => {
+                    document.getElementById(id).addEventListener('input', (e) => this.updateWeight(id, e.target.value));
+                });
+
+                // Consolidation filter listeners
+                const recommendationFilters = ['duplicateSearchFilter', 'asinFilter', 'minCampaignsFilter', 'duplicateSortFilter', 'statusFilter', 'campaignTypeFilter', 'excludeSingleOrderFilter'];
+                recommendationFilters.forEach(id => {
+                    document.getElementById(id).addEventListener('input', () => this.renderRecommendations());
+                });
+
+                // Duplicate pagination listeners
+                document.getElementById('duplicatesRowsPerPage').addEventListener('change', (e) => {
+                    this.duplicatesRowsPerPage = parseInt(e.target.value);
+                    this.duplicatesCurrentPage = 1;
+                    this.renderRecommendations();
+                });
+
+                document.getElementById('duplicatesPrevPageBtn').addEventListener('click', () => {
+                    if (this.duplicatesCurrentPage > 1) {
+                        this.duplicatesCurrentPage--;
+                        this.renderRecommendations();
+                    }
+                });
+
+                document.getElementById('duplicatesNextPageBtn').addEventListener('click', () => {
+                    const totalPages = Math.ceil(this.filteredDuplicates.length / this.duplicatesRowsPerPage);
+                    if (this.duplicatesCurrentPage < totalPages) {
+                        this.duplicatesCurrentPage++;
+                        this.renderRecommendations();
+                    }
+                });
+            }
+
+            showLoading(title, message) {
+                document.getElementById('loadingTitle').textContent = title;
+                document.getElementById('loadingMessage').textContent = message;
+                document.getElementById('loadingOverlay').classList.remove('hidden');
+            }
+
+            updateProgress(percent, details) {
+                document.getElementById('progressFill').style.width = percent + '%';
+                document.getElementById('loadingDetails').textContent = details;
+            }
+
+            hideLoading() {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }
+
+            async handleFileUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                this.showLoading('Reading File', 'Processing your upload...');
+                try {
+                    const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                    document.getElementById('fileStats').innerHTML = `File: ${file.name} (${fileSize} MB)`;
+                    document.getElementById('fileStats').classList.remove('hidden');
+                    this.updateProgress(25, 'Reading file contents...');
+
+                    if (file.name.endsWith('.csv')) {
+                        const text = await file.text();
+                        this.updateProgress(50, 'Parsing CSV data...');
+                        Papa.parse(text, {
+                            header: true,
+                            skipEmptyLines: true,
+                            complete: (result) => {
+                                this.rawData = result.data;
+                                this.setupColumnMapping(result.meta.fields);
+                                this.hideLoading();
+                            }
+                        });
+                    } else if (file.name.endsWith('.xlsx')) {
+                        const arrayBuffer = await file.arrayBuffer();
+                        this.updateProgress(50, 'Parsing Excel data...');
+                        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0];
+                        this.rawData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+                        if (this.rawData.length > 0) this.setupColumnMapping(Object.keys(this.rawData[0]));
+                        this.hideLoading();
+                    }
+                } catch (error) {
+                    console.error('Error processing file:', error);
+                    alert('Error processing file. Please check the format and try again.');
+                    this.hideLoading();
+                }
+                event.target.value = '';
+            }
+            
+            setupColumnMapping(columns) {
+                const mappingSection = document.getElementById('columnMapping');
+                mappingSection.style.display = 'block';
+
+                const selects = {
+                    campaignColumnSelect: /campaign/i,
+                    keywordColumnSelect: /keyword|search term/i,
+                    asinColumnSelect: /asin/i,
+                    salesColumnSelect: /sales/i,
+                    ordersColumnSelect: /orders/i,
+                    conversionColumnSelect: /conversion|cvr/i,
+                    acosColumnSelect: /acos/i,
+                    campaignStatusColumnSelect: /campaign status/i,
+                    keywordStatusColumnSelect: /keyword status|status/i,
+                };
+
+                Object.keys(selects).forEach(selectId => {
+                    const select = document.getElementById(selectId);
+                    select.innerHTML = '<option value="">Select Column</option>';
+                    columns.forEach(col => {
+                        select.innerHTML += `<option value="${col}">${col}</option>`;
+                    });
+                    const pattern = selects[selectId];
+                    const matchingColumn = columns.find(col => pattern.test(col));
+                    if (matchingColumn) {
+                        select.value = matchingColumn;
+                    }
+                });
+            }
+
+            async applyColumnMapping() {
+                const requiredCols = ['campaignColumnSelect', 'keywordColumnSelect', 'salesColumnSelect', 'acosColumnSelect', 'asinColumnSelect', 'ordersColumnSelect'];
+                for (const colId of requiredCols) {
+                    if (!document.getElementById(colId).value) {
+                        alert(`Please map all required columns. '${colId.replace("ColumnSelect", "")}' is missing.`);
+                        return;
+                    }
+                }
+
+                this.showLoading('Processing Data', 'Mapping columns and processing keywords...');
+                const colMap = {
+                    campaign: document.getElementById('campaignColumnSelect').value,
+                    name: document.getElementById('keywordColumnSelect').value,
+                    asin: document.getElementById('asinColumnSelect').value,
+                    sales: document.getElementById('salesColumnSelect').value,
+                    orders: document.getElementById('ordersColumnSelect').value,
+                    conversion: document.getElementById('conversionColumnSelect').value,
+                    acos: document.getElementById('acosColumnSelect').value,
+                    campaignStatus: document.getElementById('campaignStatusColumnSelect').value,
+                    keywordStatus: document.getElementById('keywordStatusColumnSelect').value,
+                };
+                
+                const newKeywords = this.rawData.map((row, index) => {
+                    const clean = (val) => String(val || '').toLowerCase().trim();
+                    return {
+                        id: Date.now() + index,
+                        campaign: row[colMap.campaign] || 'N/A',
+                        name: row[colMap.name] || 'N/A',
+                        asin: row[colMap.asin] || 'N/A',
+                        sales: parseFloat(String(row[colMap.sales]).replace(/[^0-9.-]+/g, "")) || 0,
+                        orders: parseInt(row[colMap.orders]) || 0,
+                        conversion: parseFloat(String(row[colMap.conversion]).replace(/[^0-9.-]+/g, "")) || 0,
+                        acos: parseFloat(String(row[colMap.acos]).replace(/[^0-9.-]+/g, "")) || 0,
+                        campaignStatus: clean(row[colMap.campaignStatus]) || 'enabled',
+                        keywordStatus: clean(row[colMap.keywordStatus]) || 'enabled'
+                    };
+                }).filter(k => k.name !== 'N/A' && k.asin !== 'N/A');
+
+                this.keywords = newKeywords;
+                this.populateAsinFilter();
+                document.getElementById('columnMapping').style.display = 'none';
+                
+                setTimeout(() => {
+                    this.hideLoading();
+                    this.calculateScores();
+                }, 500);
+            }
+
+            populateAsinFilter() {
+                this.uniqueAsins = new Set(this.keywords.map(k => k.asin));
+                const asinFilter = document.getElementById('asinFilter');
+                asinFilter.innerHTML = '<option value="">All ASINs</option>';
+                this.uniqueAsins.forEach(asin => {
+                    asinFilter.innerHTML += `<option value="${asin}">${asin}</option>`;
+                });
+            }
+
+            updateWeight(fieldId, value) {
+                this.weights[fieldId.replace('Weight', '')] = parseInt(value) || 0;
+                this.calculateScores();
+            }
+
+            async calculateScores() {
+                if (this.keywords.length === 0) return;
+
+                const salesValues = this.keywords.map(k => k.sales);
+                const conversionValues = this.keywords.map(k => k.conversion);
+                const acosValues = this.keywords.map(k => k.acos);
+
+                const minSales = Math.min(...salesValues), maxSales = Math.max(...salesValues);
+                const minConversion = Math.min(...conversionValues), maxConversion = Math.max(...conversionValues);
+                const minAcos = Math.min(...acosValues), maxAcos = Math.max(...acosValues);
+
+                this.results = this.keywords.map(keyword => {
+                    const salesScore = maxSales === minSales ? 100 : ((keyword.sales - minSales) / (maxSales - minSales)) * 100;
+                    const conversionScore = maxConversion === minConversion ? 100 : ((keyword.conversion - minConversion) / (maxConversion - minConversion)) * 100;
+                    const acosScore = maxAcos === minAcos ? 100 : ((maxAcos - keyword.acos) / (maxAcos - minAcos)) * 100;
+                    const compositeScore = (acosScore * this.weights.acos / 100) + (conversionScore * this.weights.conversion / 100) + (salesScore * this.weights.sales / 100);
+                    return { ...keyword, compositeScore: compositeScore.toFixed(1) };
+                });
+                
+                this.identifyDuplicates();
+                this.updateSummary();
+            }
+
+            identifyDuplicates() {
+                const keywordGroups = {};
+                this.results.forEach(keyword => {
+                    const key = `${keyword.name.toLowerCase().trim()}|${keyword.asin.toLowerCase().trim()}`;
+                    if (!keywordGroups[key]) keywordGroups[key] = [];
+                    keywordGroups[key].push(keyword);
+                });
+                this.duplicates = Object.fromEntries(Object.entries(keywordGroups).filter(([_, v]) => v.length > 1));
+                this.renderRecommendations();
+            }
+            
+            getCampaignType(campaignName) {
+                const name = campaignName.toLowerCase();
+                if (name.includes('sp') && name.includes('auto')) return 'SP Auto';
+                if (name.includes('sp') && (name.includes('manual') || name.includes('keyword') || name.includes('product'))) return 'SP Manual';
+                if (name.includes('sb') && name.includes('video')) return 'SB Video';
+                if (name.includes('sd') && name.includes('display')) return 'SD Display';
+                return 'Other';
+            }
+
+            renderRecommendations() {
+                const section = document.getElementById('recommendationsSection');
+                const list = document.getElementById('recommendationsList');
+                const paginationControls = document.getElementById('duplicatesPagination');
+                if (Object.keys(this.duplicates).length === 0) {
+                    section.style.display = 'none';
+                    return;
+                }
+                section.style.display = 'block';
+
+                // 1. Get filter values
+                const searchFilter = document.getElementById('duplicateSearchFilter').value.toLowerCase();
+                const asinFilter = document.getElementById('asinFilter').value;
+                const minCampaigns = parseInt(document.getElementById('minCampaignsFilter').value);
+                const sortFilter = document.getElementById('duplicateSortFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+                const campaignTypeFilter = document.getElementById('campaignTypeFilter').value;
+                const excludeSingleOrder = document.getElementById('excludeSingleOrderFilter').checked;
+
+                // 2. Process and filter duplicates
+                let processedDuplicates = Object.values(this.duplicates).map(keywordList => {
+                    const sortedByScore = [...keywordList].sort((a, b) => parseFloat(b.compositeScore) - parseFloat(a.compositeScore));
+                    return { list: sortedByScore, asin: sortedByScore[0].asin };
+                });
+
+                // Apply filters
+                if (asinFilter) processedDuplicates = processedDuplicates.filter(item => item.asin === asinFilter);
+                if (statusFilter === 'enabled') processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => kw.keywordStatus === 'enabled'));
+                if (statusFilter === 'campaign_enabled') processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => kw.campaignStatus === 'enabled'));
+                if (campaignTypeFilter) processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => this.getCampaignType(kw.campaign) === campaignTypeFilter));
+                if (excludeSingleOrder) processedDuplicates = processedDuplicates.filter(group => !group.list.every(kw => kw.orders <= 1));
+
+                this.filteredDuplicates = processedDuplicates.map(group => {
+                    const best = group.list[0];
+                    const rest = group.list.slice(1);
+                    const savings = rest.reduce((sum, kw) => sum + (kw.sales * (kw.acos / 100)), 0);
+                    return { best, rest, savings, count: group.list.length };
+                }).filter(item => 
+                    item.count >= minCampaigns && 
+                    item.best.name.toLowerCase().includes(searchFilter)
+                );
+                
+                // 3. Apply sorting
+                if (sortFilter === 'savings-desc') this.filteredDuplicates.sort((a, b) => b.savings - a.savings);
+                else if (sortFilter === 'campaigns-desc') this.filteredDuplicates.sort((a, b) => b.count - a.count);
+                else if (sortFilter === 'keyword-asc') this.filteredDuplicates.sort((a, b) => a.best.name.localeCompare(b.best.name));
+
+                // 4. Update stats and pagination
+                const totalWastedSpend = this.filteredDuplicates.reduce((sum, item) => sum + item.savings, 0);
+                const keywordsToPause = this.filteredDuplicates.reduce((sum, item) => sum + item.rest.length, 0);
+                document.getElementById('totalDuplicatesFound').textContent = this.filteredDuplicates.length;
+                document.getElementById('totalWastedSpend').textContent = `$${totalWastedSpend.toFixed(0)}`;
+                document.getElementById('campaignsToOptimize').textContent = keywordsToPause;
+
+                // Pagination logic
+                const totalItems = this.filteredDuplicates.length;
+                paginationControls.style.display = totalItems > 0 ? 'flex' : 'none';
+                if (totalItems === 0) { list.innerHTML = '<p style="text-align: center; padding: 24px; color: #6b7280;">No duplicates match filters.</p>'; return; }
+                const totalPages = Math.ceil(totalItems / this.duplicatesRowsPerPage);
+                this.duplicatesCurrentPage = Math.min(this.duplicatesCurrentPage, totalPages) || 1;
+                const startIndex = (this.duplicatesCurrentPage - 1) * this.duplicatesRowsPerPage;
+                const endIndex = Math.min(startIndex + this.duplicatesRowsPerPage, totalItems);
+                const pageData = this.filteredDuplicates.slice(startIndex, endIndex);
+
+                document.getElementById('duplicatesShowingStart').textContent = totalItems > 0 ? startIndex + 1 : 0;
+                document.getElementById('duplicatesShowingEnd').textContent = endIndex;
+                document.getElementById('duplicatesTotalFiltered').textContent = totalItems;
+                document.getElementById('duplicatesPrevPageBtn').disabled = this.duplicatesCurrentPage <= 1;
+                document.getElementById('duplicatesNextPageBtn').disabled = this.duplicatesCurrentPage >= totalPages;
+
+                // 5. Render UI
+                list.innerHTML = '';
+                pageData.forEach((rec, index) => {
+                    const absoluteIndex = startIndex + index;
+                    const item = document.createElement('div');
+                    item.className = 'collapsible-section';
+                    const { best, rest, savings, count } = rec;
+                    
+                    item.innerHTML = `
+                        <div class="collapsible-header" onclick="calculator.toggleCollapsible(${absoluteIndex})">
+                            <div><strong>${best.name}</strong> (${best.asin}) - ${count} campaigns - <span style="color: #15803d;">$${savings.toFixed(2)} savings</span></div>
+                            <div class="dropdown-arrow" id="arrow-${absoluteIndex}">▼</div>
+                        </div>
+                        <div class="collapsible-content" id="content-${absoluteIndex}">
+                            <div class="recommendation-grid">
+                                <div class="keep-section">
+                                    <p class="text-small font-bold" style="color: #15803d; margin-bottom: 4px;">✅ KEEP THIS KEYWORD:</p>
+                                    <p class="font-bold" style="color: #166534;">${best.campaign}</p>
+                                    <p class="text-small" style="color: #16a34a;">Performance Score: ${best.compositeScore}</p>
+                                    <p class="metrics-details">Sales: $${best.sales.toFixed(2)} | Conv: ${best.conversion.toFixed(2)}% | ACOS: ${best.acos.toFixed(2)}%</p>
+                                </div>
+                                <div class="remove-section">
+                                    <p class="text-small font-bold" style="color: #dc2626; margin-bottom: 4px;">❌ PAUSE THESE KEYWORDS:</p>
+                                    ${rest.length > 0 ? rest.map(kw => `
+                                        <div style="margin-top: 8px;">
+                                            <span class="font-bold" style="color: #b91c1c;">${kw.campaign}</span>
+                                            <span class="text-small" style="color: #dc2626; margin-left: 8px;">(Score: ${kw.compositeScore})</span>
+                                            <p class="metrics-details">Sales: $${kw.sales.toFixed(2)} | Conv: ${kw.conversion.toFixed(2)}% | ACOS: ${kw.acos.toFixed(2)}%</p>
+                                        </div>`).join('') : '<p class="text-small">None</p>'}
+                                </div>
+                            </div>
+                        </div>`;
+                    list.appendChild(item);
+                });
+            }
+
+            toggleCollapsible(index) {
+                const content = document.getElementById(`content-${index}`);
+                const arrow = document.getElementById(`arrow-${index}`);
+                content.classList.toggle('expanded');
+                arrow.classList.toggle('rotated');
+            }
+
+            updateSummary() {
+                const totalKeywords = this.results.length;
+                const duplicateCount = Object.keys(this.duplicates).length;
+                const removeCount = this.results.filter(r => parseFloat(r.compositeScore) < 40).length;
+                const totalSavings = Object.values(this.duplicates).reduce((sum, list) => {
+                    const sorted = list.sort((a,b) => b.compositeScore - a.compositeScore);
+                    const rest = sorted.slice(1);
+                    return sum + rest.reduce((subSum, kw) => subSum + (kw.sales * (kw.acos/100)), 0);
+                }, 0);
+                document.getElementById('totalKeywords').textContent = totalKeywords;
+                document.getElementById('duplicateCount').textContent = duplicateCount;
+                document.getElementById('removeCount').textContent = removeCount;
+                document.getElementById('potentialSavings').textContent = `$${totalSavings.toFixed(0)}`;
+            }
+        }
+
+        let calculator;
+        document.addEventListener('DOMContentLoaded', () => {
+            calculator = new KeywordCalculator();
+        });
+    </script>
+</body>
+</html>
