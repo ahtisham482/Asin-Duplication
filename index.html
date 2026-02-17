@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,101 +8,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        /* ============================================
-           DESIGN SYSTEM TOKENS
-           ============================================ */
-        :root {
-            /* Typography */
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-size-xs: 11px;
-            --font-size-sm: 13px;
-            --font-size-base: 15px;
-            --font-size-lg: 17px;
-            --font-size-xl: 20px;
-            --font-size-2xl: 26px;
-            --font-size-3xl: 32px;
-            --line-height-tight: 1.25;
-            --line-height-normal: 1.5;
-            --line-height-relaxed: 1.65;
-            --font-weight-normal: 400;
-            --font-weight-medium: 500;
-            --font-weight-semibold: 600;
-            --font-weight-bold: 700;
-
-            /* Colors - Neutrals */
-            --color-bg-base: #f9fafb;
-            --color-bg-surface: #ffffff;
-            --color-bg-muted: #f9fafb;
-            --color-bg-subtle: #f3f4f6;
-            --color-border-light: #e5e7eb;
-            --color-border-default: #d1d5db;
-            --color-border-strong: #9ca3af;
-            --color-text-primary: #1f2937;
-            --color-text-secondary: #4b5563;
-            --color-text-muted: #6b7280;
-            --color-text-disabled: #9ca3af;
-
-            /* Colors - Semantic (VIBRANT ORIGINAL VALUES) */
-            --color-primary: #2563eb;
-            --color-primary-hover: #1d4ed8;
-            --color-primary-active: #1e40af;
-            --color-primary-bg: #eff6ff;
-            --color-primary-border: #bfdbfe;
-            --color-primary-text: #1e40af;
-
-            --color-success: #16a34a;
-            --color-success-hover: #15803d;
-            --color-success-bg: #f0fdf4;
-            --color-success-border: #bbf7d0;
-            --color-success-text: #16a34a;
-
-            --color-warning: #d97706;
-            --color-warning-hover: #b45309;
-            --color-warning-bg: #fef3c7;
-            --color-warning-border: #fcd34d;
-            --color-warning-text: #92400e;
-
-            --color-danger: #dc2626;
-            --color-danger-hover: #b91c1c;
-            --color-danger-bg: #fef2f2;
-            --color-danger-border: #fecaca;
-            --color-danger-text: #dc2626;
-
-            --color-info: #1e40af;
-            --color-info-bg: #f0f9ff;
-            --color-info-border: #bfdbfe;
-            --color-info-text: #1e40af;
-
-            /* Spacing Scale (4px base) */
-            --space-1: 4px;
-            --space-2: 8px;
-            --space-3: 12px;
-            --space-4: 16px;
-            --space-5: 20px;
-            --space-6: 24px;
-            --space-8: 32px;
-            --space-10: 40px;
-            --space-12: 48px;
-
-            /* Border Radius */
-            --radius-sm: 4px;
-            --radius-md: 6px;
-            --radius-lg: 8px;
-            --radius-xl: 12px;
-
-            /* Shadows */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-
-            /* Transitions */
-            --transition-fast: 150ms ease;
-            --transition-normal: 200ms ease;
-        }
-
-        /* Load Inter font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
         * {
             margin: 0;
             padding: 0;
@@ -110,52 +15,43 @@
         }
 
         body {
-            font-family: var(--font-family);
-            font-size: var(--font-size-base);
-            background-color: var(--color-bg-base);
-            color: var(--color-text-primary);
-            line-height: var(--line-height-relaxed);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #374151;
+            line-height: 1.6;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: var(--space-6);
+            padding: 24px;
         }
 
         .card {
-            background: var(--color-bg-surface);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-md);
-            padding: var(--space-6);
-            margin-bottom: var(--space-6);
-            border: 1px solid var(--color-border-light);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
         }
 
         .header {
             display: flex;
             align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-4);
-            border-bottom: 1px solid var(--color-border-light);
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
         .header h1 {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-text-primary);
-            letter-spacing: -0.02em;
-            line-height: var(--line-height-tight);
+            font-size: 32px;
+            font-weight: bold;
+            color: #1f2937;
         }
 
         .icon {
-            width: 36px;
-            height: 36px;
-            color: var(--color-primary);
-            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            color: #2563eb;
         }
 
         .loading-overlay {
@@ -164,8 +60,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
+            background-color: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -173,34 +68,21 @@
         }
 
         .loading-content {
-            background: var(--color-bg-surface);
-            padding: var(--space-8);
-            border-radius: var(--radius-xl);
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
             text-align: center;
-            max-width: 420px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .loading-content h3 {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
-            margin-bottom: var(--space-2);
-        }
-
-        .loading-content p {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
+            max-width: 400px;
         }
 
         .loading-spinner {
-            width: 44px;
-            height: 44px;
-            border: 3px solid var(--color-border-light);
-            border-top: 3px solid var(--color-primary);
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #2563eb;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto var(--space-4);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
         }
 
         @keyframes spin {
@@ -215,40 +97,33 @@
 
         .progress-bar {
             width: 100%;
-            height: 6px;
-            background-color: var(--color-bg-muted);
-            border-radius: var(--radius-sm);
-            margin: var(--space-4) 0;
+            height: 8px;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            margin: 16px 0;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--color-primary), #3b82f6);
-            border-radius: var(--radius-sm);
+            background-color: #2563eb;
+            border-radius: 4px;
             transition: width 0.3s ease;
         }
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: var(--space-4);
-            margin-bottom: var(--space-6);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .summary-card {
-            padding: var(--space-4) var(--space-5);
-            border-radius: var(--radius-lg);
+            padding: 16px;
+            border-radius: 8px;
             display: flex;
-            justify-content: space-between;
+            justify-content: between;
             align-items: center;
-            border: 1px solid transparent;
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-        }
-
-        .summary-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
         }
 
         .summary-card.blue {
@@ -278,9 +153,8 @@
         }
 
         .summary-value {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            line-height: var(--line-height-tight);
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .blue .summary-label,
@@ -304,81 +178,60 @@
         }
 
         .upload-section {
-            background-color: var(--color-primary-bg);
-            border: 1px solid var(--color-primary-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            margin-bottom: var(--space-5);
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
         }
 
         .upload-header {
             display: flex;
             align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-3);
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         .upload-header h3 {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-primary-text);
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
         }
 
         .file-input {
             display: block;
             width: 100%;
-            padding: var(--space-2) 0;
-            font-size: var(--font-size-sm);
-            color: var(--color-text-secondary);
-            cursor: pointer;
-        }
-
-        .file-input::file-selector-button {
-            padding: var(--space-2) var(--space-4);
-            border: 1px solid var(--color-border-default);
-            border-radius: var(--radius-md);
-            background-color: var(--color-bg-surface);
-            color: var(--color-text-primary);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            margin-right: var(--space-3);
-            transition: all var(--transition-fast);
-        }
-
-        .file-input::file-selector-button:hover {
-            background-color: var(--color-bg-muted);
-            border-color: var(--color-border-strong);
+            padding: 8px 0;
+            font-size: 14px;
+            color: #6b7280;
         }
 
         .column-mapping {
-            margin-top: var(--space-3);
-            padding: var(--space-4);
-            background-color: var(--color-info-bg);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--color-info-border);
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #f0f9ff;
+            border-radius: 6px;
             display: none;
         }
 
         .mapping-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: var(--space-3);
-            margin-top: var(--space-2);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
         }
 
         .weights-section {
-            background-color: var(--color-bg-muted);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            margin-bottom: var(--space-6);
-            border: 1px solid var(--color-border-light);
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
         }
 
         .weights-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: var(--space-4);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
         }
 
         .weight-input,
@@ -386,22 +239,11 @@
         .filter-input,
         .control-input {
             width: 100%;
-            height: 40px;
-            padding: var(--space-2) var(--space-3);
-            border: 1px solid var(--color-border-default);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-family: var(--font-family);
-            background-color: var(--color-bg-surface);
-            color: var(--color-text-primary);
-            transition: all var(--transition-fast);
-        }
-
-        .weight-input:hover,
-        .mapping-select:hover,
-        .filter-input:hover,
-        .control-input:hover {
-            border-color: var(--color-border-strong);
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: white;
         }
 
         .weight-input:focus,
@@ -409,81 +251,66 @@
         .filter-input:focus,
         .control-input:focus {
             outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .weight-input:disabled,
-        .mapping-select:disabled,
-        .control-input:disabled {
-            background-color: var(--color-bg-muted);
-            color: var(--color-text-disabled);
-            cursor: not-allowed;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .recommendations {
-            background-color: var(--color-warning-bg);
-            border: 1px solid var(--color-warning-border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
-            margin-bottom: var(--space-6);
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
 
         .recommendation-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-4);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
         }
 
         .keep-section {
-            background-color: var(--color-success-bg);
-            border: 1px solid var(--color-success-border);
-            border-radius: var(--radius-md);
-            padding: var(--space-4);
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 6px;
+            padding: 12px;
         }
 
         .remove-section {
-            background-color: var(--color-danger-bg);
-            border: 1px solid var(--color-danger-border);
-            border-radius: var(--radius-md);
-            padding: var(--space-4);
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 12px;
         }
 
         .collapsible-section {
-            border: 1px solid var(--color-border-light);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-4);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
             overflow: hidden;
-            background-color: var(--color-bg-surface);
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow var(--transition-fast);
-        }
-
-        .collapsible-section:hover {
-            box-shadow: var(--shadow-md);
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .collapsible-header {
-            background-color: var(--color-bg-muted);
-            padding: var(--space-3) var(--space-4);
+            background-color: #f9fafb;
+            padding: 12px 16px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: var(--font-weight-semibold);
-            font-size: var(--font-size-sm);
-            transition: background-color var(--transition-fast);
-            user-select: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
         }
 
         .collapsible-header:hover {
-            background-color: var(--color-bg-subtle);
+            background-color: #f3f4f6;
         }
 
         .collapsible-content {
-            padding: var(--space-4);
+            padding: 16px;
             display: none;
-            border-top: 1px solid var(--color-border-light);
+            border-top: 1px solid #e5e7eb;
         }
 
         .collapsible-content.expanded {
@@ -491,8 +318,7 @@
         }
 
         .dropdown-arrow {
-            transition: transform var(--transition-fast);
-            color: var(--color-text-muted);
+            transition: transform 0.2s;
         }
 
         .dropdown-arrow.rotated {
@@ -500,24 +326,24 @@
         }
 
         .analysis-control-panel {
-            background-color: var(--color-bg-surface);
-            padding: var(--space-4);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-4);
-            border: 1px solid var(--color-border-light);
+            background-color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #e5e7eb;
         }
 
         .control-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: var(--space-4);
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
             align-items: end;
         }
 
         .control-group {
             display: flex;
             flex-direction: column;
-            gap: var(--space-1);
+            gap: 4px;
         }
 
         .control-label {
@@ -528,79 +354,70 @@
 
         .quick-stats-bar {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: var(--space-3);
-            margin-top: var(--space-4);
-            padding-top: var(--space-4);
-            border-top: 1px solid var(--color-border-light);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
         }
 
         .quick-stat {
-            background-color: var(--color-bg-surface);
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
+            background-color: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 6px;
             text-align: center;
-            border: 1px solid var(--color-border-light);
         }
 
         .stat-value {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-text-primary);
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
             display: block;
-            line-height: var(--line-height-tight);
         }
 
         .stat-label {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-muted);
-            margin-top: var(--space-1);
+            font-size: 12px;
+            color: #6b7280;
         }
 
         .table-container {
             overflow-x: auto;
-            margin-bottom: var(--space-6);
+            margin-bottom: 24px;
             max-height: 600px;
             overflow-y: auto;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-border-light);
         }
 
         .table-filters {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: var(--space-2);
-            margin-bottom: var(--space-3);
-            padding: var(--space-3);
-            background-color: var(--color-bg-muted);
-            border-radius: var(--radius-md);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 12px;
+            background-color: #f9fafb;
+            border-radius: 6px;
         }
 
         .pagination-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: var(--space-3);
-            margin: var(--space-4) 0;
-            padding: var(--space-3) var(--space-4);
-            background-color: var(--color-bg-muted);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
+            margin: 16px 0;
+            padding: 12px;
+            background-color: #f9fafb;
+            border-radius: 6px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: var(--font-size-sm);
+            border: 1px solid #d1d5db;
         }
 
         th,
         td {
-            border: 1px solid var(--color-border-light);
-            padding: var(--space-2) var(--space-3);
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
             text-align: left;
-            vertical-align: middle;
         }
 
         th {
@@ -612,197 +429,125 @@
             z-index: 10;
         }
 
-        tr:hover td {
-            background-color: var(--color-bg-base);
-        }
-
         td input,
         td select {
             width: 100%;
-            padding: var(--space-1) var(--space-2);
-            border: 1px solid var(--color-border-light);
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-sm);
-            font-family: var(--font-family);
+            padding: 4px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            font-size: 14px;
         }
 
         .duplicate-row {
-            background-color: var(--color-warning-bg);
+            background-color: #fefce8;
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-4);
-            min-height: 40px;
+            padding: 8px 16px;
             border: none;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            font-family: var(--font-family);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all var(--transition-fast);
-            text-decoration: none;
-            white-space: nowrap;
-        }
-
-        .btn:focus-visible {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
+            transition: all 0.2s;
         }
 
         .btn-primary {
-            background-color: var(--color-primary);
+            background-color: #2563eb;
             color: white;
-            box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
         }
 
         .btn-primary:hover {
-            background-color: var(--color-primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-primary:active {
-            background-color: var(--color-primary-active);
-            transform: translateY(0);
+            background-color: #1d4ed8;
         }
 
         .btn-danger {
-            background-color: var(--color-danger);
+            background-color: #dc2626;
             color: white;
-            padding: var(--space-1) var(--space-2);
-            min-height: 32px;
-            font-size: var(--font-size-xs);
+            padding: 4px 8px;
+            font-size: 12px;
         }
 
         .btn-danger:hover {
-            background-color: var(--color-danger-hover);
-            transform: translateY(-1px);
+            background-color: #b91c1c;
         }
 
         .btn-secondary {
-            background-color: var(--color-bg-muted);
-            color: var(--color-text-secondary);
-            border: 1px solid var(--color-border-default);
-            padding: var(--space-1) var(--space-3);
-            min-height: 32px;
-            font-size: var(--font-size-xs);
+            background-color: #6b7280;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
         }
 
         .btn-secondary:hover {
-            background-color: var(--color-bg-subtle);
-            border-color: var(--color-border-strong);
-            color: var(--color-text-primary);
-        }
-
-        .btn-success {
-            background-color: var(--color-success);
-            color: white;
-            box-shadow: 0 1px 2px rgba(22, 163, 74, 0.2);
-        }
-
-        .btn-success:hover {
-            background-color: var(--color-success-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.3);
-        }
-
-        .btn-warning {
-            background-color: var(--color-warning);
-            color: white;
-            box-shadow: 0 1px 2px rgba(217, 119, 6, 0.2);
-        }
-
-        .btn-warning:hover {
-            background-color: var(--color-warning-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(217, 119, 6, 0.3);
+            background-color: #4b5563;
         }
 
         .action-badge {
-            display: inline-block;
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-xl);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
             text-align: center;
-            line-height: var(--line-height-normal);
         }
 
         .action-elite {
-            background-color: var(--color-success-bg);
-            color: var(--color-success);
-            border: 1px solid var(--color-success-border);
+            background-color: #f0fdf4;
+            color: #16a34a;
         }
 
         .action-strong {
-            background-color: var(--color-primary-bg);
-            color: var(--color-primary);
-            border: 1px solid var(--color-primary-border);
+            background-color: #eff6ff;
+            color: #2563eb;
         }
 
         .action-weak {
-            background-color: var(--color-warning-bg);
-            color: var(--color-warning);
-            border: 1px solid var(--color-warning-border);
+            background-color: #fefce8;
+            color: #ca8a04;
         }
 
         .action-remove {
-            background-color: var(--color-danger-bg);
-            color: var(--color-danger);
-            border: 1px solid var(--color-danger-border);
+            background-color: #fef2f2;
+            color: #dc2626;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-4);
+            margin-bottom: 16px;
         }
 
         .section-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-text-primary);
+            font-size: 18px;
+            font-weight: 600;
         }
 
         .alert {
-            padding: var(--space-3) var(--space-4);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-4);
-            font-size: var(--font-size-sm);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
         }
 
         .alert-warning {
-            background-color: var(--color-warning-bg);
-            border: 1px solid var(--color-warning-border);
-            color: var(--color-warning-text);
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            color: #92400e;
         }
 
         .text-small {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-muted);
-            line-height: var(--line-height-normal);
+            font-size: 12px;
+            color: #6b7280;
         }
 
         .metrics-details {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-secondary);
-            margin-top: var(--space-2);
-            line-height: var(--line-height-relaxed);
+            font-size: 12px;
+            color: #4b5563;
+            margin-top: 6px;
         }
 
         .font-bold {
-            font-weight: var(--font-weight-bold);
+            font-weight: bold;
         }
 
         .text-center {
@@ -814,14 +559,12 @@
         }
 
         .file-stats {
-            margin-top: var(--space-2);
-            padding: var(--space-3);
-            background-color: var(--color-info-bg);
-            border: 1px solid var(--color-info-border);
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            color: var(--color-info-text);
-            line-height: var(--line-height-relaxed);
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: #f0f9ff;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1e40af;
         }
     </style>
 </head>
@@ -850,6 +593,17 @@
                 <h1>Amazon Keyword Consolidation & Performance Calculator</h1>
             </div>
 
+            <!-- Debug Mode Toggle -->
+            <div
+                style="display: flex; align-items: center; gap: 12px; padding: 12px; background-color: #f3f4f6; border-radius: 8px; margin-bottom: 16px;">
+                <label
+                    style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 500; color: #374151;">
+                    <input type="checkbox" id="debugModeToggle" style="width: 18px; height: 18px; cursor: pointer;">
+                    <span>🔍 Debug Mode</span>
+                </label>
+                <span class="text-small" style="color: #6b7280;">Show detailed logging of duplicate detection</span>
+            </div>
+
             <!-- Bulk File Upload Section -->
             <div class="upload-section" style="background-color: #fef3c7; border-color: #fcd34d;">
                 <div class="upload-header">
@@ -867,7 +621,8 @@
                         file.</strong>
                 </div>
                 <div id="bulkFileStats" class="file-stats hidden" style="background-color: #fef9c3;"></div>
-                <button id="processBulkOnlyBtn" class="btn btn-warning" style="margin-top: 12px; display: none;">
+                <button id="processBulkOnlyBtn" class="btn btn-primary"
+                    style="margin-top: 12px; background-color: #d97706; display: none;">
                     Process Bulk File Only (Skip Scale Insights)
                 </button>
             </div>
@@ -918,6 +673,11 @@
                             </select></div>
                         <div><label class="text-small font-bold">ACOS:</label><select id="acosColumnSelect"
                                 class="mapping-select">
+                                <option value="">Select</option>
+                            </select></div>
+                        <div><label class="text-small font-bold">Match Type: <span
+                                    style="color: #6b7280; font-weight: normal;">(Optional)</span></label><select
+                                id="matchColumnSelect" class="mapping-select">
                                 <option value="">Select</option>
                             </select></div>
                         <div><label class="text-small font-bold">Campaign Status:</label><select
@@ -983,6 +743,167 @@
                 </div>
             </div>
 
+            <!-- Debug Panel - Data Storytelling UI -->
+            <div id="debugPanel" class="card"
+                style="display: none; background: #ffffff; border: 2px solid #0ea5e9; padding: 0;">
+
+                <!-- Header -->
+                <div
+                    style="background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%); padding: 20px; border-radius: 8px 8px 0 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="color: white; font-size: 20px; font-weight: 700; margin: 0;">🔍 Debug Mode - Data
+                            Journey</h3>
+                        <button class="btn btn-secondary" onclick="calculator.exportDebugLog()"
+                            style="background: white; color: #0284c7; border: none;">📥 Export CSV</button>
+                    </div>
+                    <p style="color: #e0f2fe; font-size: 13px; margin: 8px 0 0 0;">See exactly what happens to your data
+                        from upload to final decision</p>
+                </div>
+
+                <div style="padding: 24px;">
+
+                    <!-- Chapter 1: Upload Summary (Always Visible) -->
+                    <div class="debug-chapter"
+                        style="margin-bottom: 20px; border: 2px solid #dbeafe; border-radius: 8px; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);">
+                        <div style="padding: 16px; border-bottom: 1px solid #bfdbfe;">
+                            <h4 style="color: #0c4a6e; font-size: 16px; font-weight: 600; margin: 0;">📊 Chapter 1:
+                                Upload Summary</h4>
+                            <p style="color: #075985; font-size: 12px; margin: 4px 0 0 0;">Complete overview of data
+                                processing</p>
+                        </div>
+                        <div style="padding: 16px;">
+                            <div class="summary-grid"
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+                                <div
+                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #bfdbfe;">
+                                    <div style="font-size: 11px; color: #0369a1; font-weight: 600;">✓ UPLOADED</div>
+                                    <div id="debugTotalUploaded"
+                                        style="font-size: 24px; color: #0c4a6e; font-weight: 700;">0</div>
+                                </div>
+                                <div
+                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #fed7aa;">
+                                    <div style="font-size: 11px; color: #9a3412; font-weight: 600;">⚠️ FILTERED</div>
+                                    <div id="debugFiltered" style="font-size: 24px; color: #7c2d12; font-weight: 700;">0
+                                    </div>
+                                </div>
+                                <div
+                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #fde68a;">
+                                    <div style="font-size: 11px; color: #92400e; font-weight: 600;">⏭️ SKIPPED</div>
+                                    <div id="debugZeroSales" style="font-size: 24px; color: #78350f; font-weight: 700;">
+                                        0</div>
+                                </div>
+                                <div
+                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #93c5fd;">
+                                    <div style="font-size: 11px; color: #1e40af; font-weight: 600;">✓ PROCESSED</div>
+                                    <div id="debugTotalProcessed"
+                                        style="font-size: 24px; color: #1e3a8a; font-weight: 700;">0</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #bfdbfe;">
+                                <div style="font-size: 12px; color: #0c4a6e; font-weight: 600; margin-bottom: 8px;">📈
+                                    Results:</div>
+                                <div style="display: flex; gap: 20px; font-size: 12px; color: #075985;">
+                                    <span>Duplicate Groups: <strong id="debugDuplicateGroups">0</strong></span>
+                                    <span>To Pause: <strong id="debugMarkedForRemoval">0</strong></span>
+                                    <span>Unique Keywords: <strong id="debugUniqueCount">0</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 2: Filtered Rows -->
+                    <div class="debug-chapter" style="margin-bottom: 16px;">
+                        <div class="chapter-header" onclick="calculator.toggleChapter('filtered')"
+                            style="background: #fef3c7; padding: 12px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #fde68a;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 16px; font-weight: 600; color: #92400e;">⚠️ Chapter 2:
+                                        Filtered Rows</span>
+                                    <span id="filteredCount" style="color: #a16207; margin-left: 8px;">(0 rows)</span>
+                                </div>
+                                <span id="filteredToggle" style="color: #92400e; font-size: 18px;">▼</span>
+                            </div>
+                            <p style="font-size: 12px; color: #78350f; margin: 4px 0 0 0;">Why excluded? Missing keyword
+                                or ASIN data</p>
+                        </div>
+                        <div id="chapterFiltered" class="chapter-content"
+                            style="display: none; padding: 16px; background: white; border: 1px solid #fde68a; border-top: none; border-radius: 0 0 6px 6px;">
+                            <p style="font-size: 13px; color: #78350f; margin-bottom: 12px;">These rows were removed
+                                before analysis because they're missing critical data.</p>
+                            <div id="filteredTable"></div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 3: Skipped Keywords -->
+                    <div class="debug-chapter" style="margin-bottom: 16px;">
+                        <div class="chapter-header" onclick="calculator.toggleChapter('skipped')"
+                            style="background: #fef9c3; padding: 12px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #fde047;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 16px; font-weight: 600; color: #854d0e;">⏭️ Chapter 3:
+                                        Skipped Keywords</span>
+                                    <span id="skippedCount" style="color: #a16207; margin-left: 8px;">(0 rows)</span>
+                                </div>
+                                <span id="skippedToggle" style="color: #854d0e; font-size: 18px;">▼</span>
+                            </div>
+                            <p style="font-size: 12px; color: #a16207; margin: 4px 0 0 0;">Why skipped? Zero or empty
+                                sales data</p>
+                        </div>
+                        <div id="chapterSkipped" class="chapter-content"
+                            style="display: none; padding: 16px; background: white; border: 1px solid #fde047; border-top: none; border-radius: 0 0 6px 6px;">
+                            <p style="font-size: 13px; color: #a16207; margin-bottom: 12px;">These keywords have no
+                                sales, so they can't be compared for duplicates.</p>
+                            <div id="skippedTable"></div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 4: Analysis & Grouping -->
+                    <div class="debug-chapter" style="margin-bottom: 16px;">
+                        <div class="chapter-header" onclick="calculator.toggleChapter('analysis')"
+                            style="background: #f5f3ff; padding: 12px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd6fe;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 16px; font-weight: 600; color: #5b21b6;">🔍 Chapter 4:
+                                        Analysis & Grouping</span>
+                                    <span id="analysisCount" style="color: #7c3aed; margin-left: 8px;">(0
+                                        keywords)</span>
+                                </div>
+                                <span id="analysisToggle" style="color: #5b21b6; font-size: 18px;">▼</span>
+                            </div>
+                            <p style="font-size: 12px; color: #6d28d9; margin: 4px 0 0 0;">How analyzed? Scoring,
+                                campaign parsing, grouping by match type</p>
+                        </div>
+                        <div id="chapterAnalysis" class="chapter-content"
+                            style="display: none; padding: 16px; background: white; border: 1px solid #ddd6fe; border-top: none; border-radius: 0 0 6px 6px;">
+                            <div id="analysisDetails"></div>
+                        </div>
+                    </div>
+
+                    <!-- Chapter 5: Final Decisions -->
+                    <div class="debug-chapter" style="margin-bottom: 16px;">
+                        <div class="chapter-header" onclick="calculator.toggleChapter('decisions')"
+                            style="background: #dcfce7; padding: 12px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #86efac;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-size: 16px; font-weight: 600; color: #15803d;">✅ Chapter 5: Final
+                                        Decisions</span>
+                                    <span id="decisionsCount" style="color: #16a34a; margin-left: 8px;">(0
+                                        groups)</span>
+                                </div>
+                                <span id="decisionsToggle" style="color: #15803d; font-size: 18px;">▼</span>
+                            </div>
+                            <p style="font-size: 12px; color: #16a34a; margin: 4px 0 0 0;">What to pause? Keywords with
+                                lower scores in duplicate groups</p>
+                        </div>
+                        <div id="chapterDecisions" class="chapter-content"
+                            style="display: none; padding: 16px; background: white; border: 1px solid #86efac; border-top: none; border-radius: 0 0 6px 6px;">
+                            <div id="decisionsTable"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div id="recommendationsSection" class="recommendations" style="display: none;">
                 <h3 class="section-title" style="color: #92400e; margin-bottom: 16px;">
                     🚨 Consolidation Recommendations & Analysis
@@ -1012,7 +933,7 @@
                         <div class="control-group"><label class="control-label">⚡ Status</label><select
                                 id="statusFilter" class="control-input">
                                 <option value="">All Statuses</option>
-                                <option value="enabled" selected>Enabled Keywords Only</option>
+                                <option value="enabled">Enabled Keywords Only</option>
                                 <option value="campaign_enabled">Enabled Campaigns Only</option>
                             </select></div>
                         <div class="control-group"><label class="control-label">🎯 Campaign Type</label><select
@@ -1068,8 +989,8 @@
                             <div style="display: flex; gap: 12px; align-items: center;">
                                 <span id="selectedCount" class="text-small" style="color: #166534;">0 keywords
                                     selected</span>
-                                <button id="generateBulkFileBtn" class="btn btn-success" disabled>Generate Pause Bulk
-                                    File</button>
+                                <button id="generateBulkFileBtn" class="btn btn-primary"
+                                    style="background-color: #16a34a;" disabled>Generate Pause Bulk File</button>
                             </div>
                         </div>
                     </div>
@@ -1111,6 +1032,12 @@
                     this.selectedKeywordsToPause = new Map();
                     this.zeroSalesKeywords = [];
 
+                    // Debug Mode state
+                    this.debugMode = false;
+                    this.debugLog = [];
+                    this.totalUploadedRows = 0; // Track total rows uploaded
+                    this.filteredRowsCount = 0; // Track filtered rows
+
                     this.duplicatesCurrentPage = 1;
                     this.duplicatesRowsPerPage = 10;
 
@@ -1126,6 +1053,13 @@
 
                     ['acosWeight', 'conversionWeight', 'salesWeight'].forEach(id => {
                         document.getElementById(id).addEventListener('input', (e) => this.updateWeight(id, e.target.value));
+                    });
+
+                    // Debug Mode toggle listener
+                    document.getElementById('debugModeToggle').addEventListener('change', (e) => {
+                        this.debugMode = e.target.checked;
+                        document.getElementById('debugPanel').style.display = this.debugMode ? 'block' : 'none';
+                        if (!this.debugMode) this.debugLog = [];
                     });
 
                     // Consolidation filter listeners
@@ -1658,6 +1592,13 @@
                 async handleFileUpload(event) {
                     const file = event.target.files[0];
                     if (!file) return;
+
+                    // Auto-enable Debug Mode to capture all processing steps
+                    this.debugMode = true;
+                    this.debugLog = []; // Initialize debug log for new upload
+                    document.getElementById('debugModeToggle').checked = true;
+                    document.getElementById('debugPanel').style.display = 'block';
+
                     this.showLoading('Reading File', 'Processing your upload...');
                     try {
                         const fileSize = (file.size / 1024 / 1024).toFixed(2);
@@ -1706,6 +1647,7 @@
                         ordersColumnSelect: /orders/i,
                         conversionColumnSelect: /conversion|cvr/i,
                         acosColumnSelect: /acos/i,
+                        matchColumnSelect: /match/i, // NEW: Match Type column
                         campaignStatusColumnSelect: /campaign status/i,
                         keywordStatusColumnSelect: /keyword status|status/i,
                     };
@@ -1742,25 +1684,88 @@
                         orders: document.getElementById('ordersColumnSelect').value,
                         conversion: document.getElementById('conversionColumnSelect').value,
                         acos: document.getElementById('acosColumnSelect').value,
+                        match: document.getElementById('matchColumnSelect').value, // NEW: Match Type
                         campaignStatus: document.getElementById('campaignStatusColumnSelect').value,
                         keywordStatus: document.getElementById('keywordStatusColumnSelect').value,
                     };
 
+                    // Track uploaded rows for debug
+                    this.totalUploadedRows = this.rawData.length;
+                    this.filteredRowsCount = 0;
+
                     const newKeywords = this.rawData.map((row, index) => {
                         const clean = (val) => String(val || '').toLowerCase().trim();
-                        return {
+                        const salesRawValue = row[colMap.sales];
+                        const salesIsEmpty = salesRawValue === undefined || salesRawValue === null || String(salesRawValue).trim() === '';
+
+                        const keyword = {
                             id: Date.now() + index,
+                            rowNumber: index + 2, // +2 because CSV is 1-indexed and has header row
                             campaign: row[colMap.campaign] || 'N/A',
                             name: row[colMap.name] || 'N/A',
                             asin: row[colMap.asin] || 'N/A',
+                            matchType: colMap.match && row[colMap.match] ? String(row[colMap.match]).trim().toLowerCase() : undefined,
                             sales: parseFloat(String(row[colMap.sales]).replace(/[^0-9.-]+/g, "")) || 0,
+                            salesWasEmpty: salesIsEmpty,
                             orders: parseInt(row[colMap.orders]) || 0,
                             conversion: parseFloat(String(row[colMap.conversion]).replace(/[^0-9.-]+/g, "")) || 0,
                             acos: parseFloat(String(row[colMap.acos]).replace(/[^0-9.-]+/g, "")) || 0,
                             campaignStatus: clean(row[colMap.campaignStatus]) || 'enabled',
                             keywordStatus: clean(row[colMap.keywordStatus]) || 'enabled'
                         };
-                    }).filter(k => k.name !== 'N/A' && k.asin !== 'N/A');
+
+                        // Debug: Log filtered rows
+                        if (this.debugMode) {
+                            if (keyword.name === 'N/A') {
+                                this.filteredRowsCount++;
+                                this.debugLog.push({
+                                    rowNumber: index + 2,
+                                    keyword: '(empty)',
+                                    asin: keyword.asin !== 'N/A' ? keyword.asin : '(empty)',
+                                    matchType: keyword.matchType || 'Unknown',
+                                    decision: 'FILTERED',
+                                    reason: 'Missing Keyword - Row excluded from processing'
+                                });
+                            } else if (keyword.asin === 'N/A') {
+                                this.filteredRowsCount++;
+                                this.debugLog.push({
+                                    rowNumber: index + 2,
+                                    keyword: keyword.name,
+                                    asin: '(empty)',
+                                    matchType: keyword.matchType || 'Unknown',
+                                    decision: 'FILTERED',
+                                    reason: 'Missing ASIN - Row excluded from processing'
+                                });
+                            } else if (keyword.campaignStatus === 'paused') {
+                                this.filteredRowsCount++;
+                                this.debugLog.push({
+                                    rowNumber: index + 2,
+                                    keyword: keyword.name,
+                                    asin: keyword.asin,
+                                    matchType: keyword.matchType || 'Unknown',
+                                    decision: 'FILTERED',
+                                    reason: 'Campaign Paused - Row excluded from processing'
+                                });
+                            } else if (keyword.keywordStatus === 'paused') {
+                                this.filteredRowsCount++;
+                                this.debugLog.push({
+                                    rowNumber: index + 2,
+                                    keyword: keyword.name,
+                                    asin: keyword.asin,
+                                    matchType: keyword.matchType || 'Unknown',
+                                    decision: 'FILTERED',
+                                    reason: 'Keyword Paused - Row excluded from processing'
+                                });
+                            }
+                        }
+
+                        return keyword;
+                    }).filter(k =>
+                        k.name !== 'N/A' &&
+                        k.asin !== 'N/A' &&
+                        k.campaignStatus !== 'paused' &&
+                        k.keywordStatus !== 'paused'
+                    );
 
                     this.keywords = newKeywords;
                     this.populateAsinFilter();
@@ -1792,10 +1797,21 @@
                     const salesValues = this.keywords.map(k => k.sales);
                     const conversionValues = this.keywords.map(k => k.conversion);
                     const acosValues = this.keywords.map(k => k.acos);
-
                     const minSales = Math.min(...salesValues), maxSales = Math.max(...salesValues);
                     const minConversion = Math.min(...conversionValues), maxConversion = Math.max(...conversionValues);
                     const minAcos = Math.min(...acosValues), maxAcos = Math.max(...acosValues);
+
+                    // Debug: Log normalization ranges
+                    if (this.debugMode) {
+                        this.debugLog.push({
+                            rowNumber: '',
+                            keyword: '📊 SCORING SETUP',
+                            asin: '',
+                            matchType: '',
+                            decision: 'INFO',
+                            reason: `<b>📖 HOW SCORING WORKS</b><br><br><b>Example:</b> Imagine 2 duplicate keywords:<br>• Keyword A: Sales $150, Conversion 12%, ACOS 25%<br>• Keyword B: Sales $80, Conversion 8%, ACOS 40%<br><br><b>Step 1: Score Each Metric (0-100)</b><br>Each metric is scored where best = 100, worst = 0.<br>For ACOS, LOWER is better, so it's inverted.<br><br><b>Step 2: Apply Your Weights</b><br>ACOS: ${this.weights.acos}% | Conversion: ${this.weights.conversion}% | Sales: ${this.weights.sales}%<br><br><b>Step 3: Calculate Final Score</b><br>Final Score = (ACOS score × ${this.weights.acos / 100}) + (Conv score × ${this.weights.conversion / 100}) + (Sales score × ${this.weights.sales / 100})<br><br><b>Result:</b> Higher score = KEEP ✅ | Lower score = PAUSE ❌<br><br><b>Your Data Ranges:</b><br>Sales: $${minSales.toFixed(2)} - $${maxSales.toFixed(2)}<br>Conversion: ${minConversion.toFixed(1)}% - ${maxConversion.toFixed(1)}%<br>ACOS: ${minAcos.toFixed(1)}% - ${maxAcos.toFixed(1)}%`
+                        });
+                    }
 
                     this.results = this.keywords.map(keyword => {
                         const salesScore = maxSales === minSales ? 100 : ((keyword.sales - minSales) / (maxSales - minSales)) * 100;
@@ -1817,17 +1833,61 @@
                         // Exclude zero sales keywords from duplicate comparison
                         if (keyword.sales === 0 || keyword.sales === '0') {
                             this.zeroSalesKeywords.push(keyword);
+                            if (this.debugMode) {
+                                // Distinguish between empty field and actual $0.00 sales
+                                const reason = keyword.salesWasEmpty
+                                    ? 'No Sales Data (Empty sales field in CSV) - Excluded from duplicate grouping'
+                                    : 'Zero Sales ($0.00) - Excluded from duplicate grouping';
+
+                                this.debugLog.push({
+                                    rowNumber: keyword.rowNumber || '',
+                                    keyword: keyword.name,
+                                    asin: keyword.asin,
+                                    matchType: keyword.matchType || 'Unknown',
+                                    decision: 'Skipped',
+                                    reason: reason
+                                });
+                            }
                             return; // Skip this keyword in duplicate grouping
                         }
 
                         // Parse campaign name to extract product+variation and campaign type
                         const parsed = this.parseCampaignName(keyword.campaign);
 
-                        // Use matchType from keyword data if available (from bulk file), otherwise use parsed
-                        const matchType = keyword.matchType || parsed.matchType;
+                        // ASIN Detection: Check if keyword itself is an ASIN (starts with B0)
+                        const isAsinKeyword = /^B0[A-Z0-9]{8}$/i.test(keyword.name.trim());
+
+                        // Use matchType from keyword data if available (from bulk file), 
+                        // otherwise check if it's an ASIN keyword,
+                        // otherwise use parsed from campaign name
+                        let finalMatchType;
+                        let matchSource;
+
+                        if (keyword.matchType) {
+                            finalMatchType = keyword.matchType;
+                            matchSource = 'CSV column';
+                        } else if (isAsinKeyword) {
+                            finalMatchType = 'ASIN Targeting';
+                            matchSource = 'Keyword pattern (B0*)';
+                        } else {
+                            finalMatchType = parsed.matchType;
+                            matchSource = parsed.matchType !== 'Unknown' ? 'Campaign name' : 'Unknown';
+                        }
+
+                        // Debug: Log campaign parsing details
+                        if (this.debugMode) {
+                            this.debugLog.push({
+                                rowNumber: keyword.rowNumber || '',
+                                keyword: keyword.name,
+                                asin: keyword.asin,
+                                matchType: finalMatchType,
+                                decision: 'PARSED',
+                                reason: `Campaign: "${keyword.campaign}" → Product: "${parsed.productVariation}" | Type: ${parsed.campaignType} | Match: ${finalMatchType} (from ${matchSource})`
+                            });
+                        }
 
                         // Grouping key: keyword + asin + product+variation + campaign type + match type
-                        const key = `${keyword.name.toLowerCase().trim()}|${keyword.asin.toLowerCase().trim()}|${parsed.productVariation}|${parsed.campaignType}|${matchType}`;
+                        const key = `${keyword.name.toLowerCase().trim()}|${keyword.asin.toLowerCase().trim()}|${parsed.productVariation}|${parsed.campaignType}|${finalMatchType}`;
                         if (!keywordGroups[key]) keywordGroups[key] = [];
                         keywordGroups[key].push(keyword);
                     });
@@ -1837,11 +1897,51 @@
                     this.selectedKeywordsToPause.clear();
                     Object.values(this.duplicates).forEach(list => {
                         const sorted = [...list].sort((a, b) => parseFloat(b.compositeScore) - parseFloat(a.compositeScore));
-                        // Skip the best one, select all others for pausing
-                        sorted.slice(1).forEach(kw => {
-                            this.selectedKeywordsToPause.set(kw.id, true);
-                        });
+
+                        // Assign recommendation property for Chapter 5 rendering
+                        sorted[0].recommendation = 'keep';  // Winner
+                        sorted.slice(1).forEach(k => k.recommendation = 'remove');  // Losers
+
+                        const winner = sorted[0];
+                        const losers = sorted.slice(1);
+
+                        // Debug logging for each duplicate group
+                        if (this.debugMode) {
+                            // Log the winner
+                            this.debugLog.push({
+                                keyword: winner.name,
+                                asin: winner.asin,
+                                matchType: winner.matchType || 'Unknown',
+                                decision: 'KEEP',
+                                reason: `Winner of ${sorted.length} duplicates (Score: ${winner.compositeScore}, Sales: $${winner.sales.toFixed(2)}, ACOS: ${winner.acos.toFixed(1)}%)`
+                            });
+
+                            // Log the losers
+                            losers.forEach((kw, idx) => {
+                                this.debugLog.push({
+                                    keyword: kw.name,
+                                    asin: kw.asin,
+                                    matchType: kw.matchType || 'Unknown',
+                                    decision: 'PAUSE',
+                                    reason: `Duplicate #${idx + 2} of ${sorted.length} (Score: ${kw.compositeScore}, Sales: $${kw.sales.toFixed(2)}, ACOS: ${kw.acos.toFixed(1)}%) - Lower performance`
+                                });
+                            });
+                        }
+
+                        // Select losers for pausing
+                        losers.forEach(kw => this.selectedKeywordsToPause.set(kw.id, true));
                     });
+
+                    // Update debug stats if enabled
+                    if (this.debugMode) {
+                        document.getElementById('debugTotalUploaded').textContent = this.totalUploadedRows;
+                        document.getElementById('debugFiltered').textContent = this.filteredRowsCount;
+                        document.getElementById('debugTotalProcessed').textContent = this.results.length - this.zeroSalesKeywords.length;
+                        document.getElementById('debugDuplicateGroups').textContent = Object.keys(this.duplicates).length;
+                        document.getElementById('debugMarkedForRemoval').textContent = this.selectedKeywordsToPause.size;
+                        document.getElementById('debugZeroSales').textContent = this.zeroSalesKeywords.length;
+                        this.renderDebugChapters();
+                    }
 
                     this.renderRecommendations();
                     this.updateSelectedCount();
@@ -1886,29 +1986,17 @@
                     const campaignTypeFilter = document.getElementById('campaignTypeFilter').value;
                     const excludeSingleOrder = document.getElementById('excludeSingleOrderFilter').checked;
 
-                    // 2. Process and filter duplicates - filter keywords WITHIN each group first
+                    // 2. Process and filter duplicates
                     let processedDuplicates = Object.values(this.duplicates).map(keywordList => {
-                        let filteredList = [...keywordList];
+                        const sortedByScore = [...keywordList].sort((a, b) => parseFloat(b.compositeScore) - parseFloat(a.compositeScore));
+                        return { list: sortedByScore, asin: sortedByScore[0].asin };
+                    });
 
-                        // Apply status filter to individual keywords within the group
-                        if (statusFilter === 'enabled') {
-                            filteredList = filteredList.filter(kw => kw.keywordStatus === 'enabled');
-                        } else if (statusFilter === 'campaign_enabled') {
-                            filteredList = filteredList.filter(kw => kw.campaignStatus === 'enabled');
-                        }
-
-                        // Apply campaign type filter to individual keywords
-                        if (campaignTypeFilter) {
-                            filteredList = filteredList.filter(kw => this.getCampaignType(kw.campaign) === campaignTypeFilter);
-                        }
-
-                        // Sort by score after filtering
-                        const sortedByScore = filteredList.sort((a, b) => parseFloat(b.compositeScore) - parseFloat(a.compositeScore));
-                        return { list: sortedByScore, asin: sortedByScore.length > 0 ? sortedByScore[0].asin : '' };
-                    }).filter(group => group.list.length > 1); // Only keep groups with 2+ keywords after filtering
-
-                    // Apply remaining group-level filters
+                    // Apply filters
                     if (asinFilter) processedDuplicates = processedDuplicates.filter(item => item.asin === asinFilter);
+                    if (statusFilter === 'enabled') processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => kw.keywordStatus === 'enabled'));
+                    if (statusFilter === 'campaign_enabled') processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => kw.campaignStatus === 'enabled'));
+                    if (campaignTypeFilter) processedDuplicates = processedDuplicates.filter(group => group.list.some(kw => this.getCampaignType(kw.campaign) === campaignTypeFilter));
                     if (excludeSingleOrder) processedDuplicates = processedDuplicates.filter(group => !group.list.every(kw => kw.orders <= 1));
 
                     this.filteredDuplicates = processedDuplicates.map(group => {
@@ -2127,11 +2215,6 @@
                             }
                         });
 
-                        // DEBUG: Log what keywords we're looking for
-                        console.log('=== DEBUG: Keywords to Pause ===');
-                        console.log('Total keywords selected:', keywordsToPause.size);
-                        console.log('Keywords to find:', Array.from(keywordsToPause).slice(0, 10));
-
                         // Create new workbook for output
                         const outputWorkbook = XLSX.utils.book_new();
                         let totalRowsPaused = 0;
@@ -2152,30 +2235,12 @@
                             return getPriority(nameA) - getPriority(nameB);
                         });
 
-                        // DEBUG: Log worksheets being processed
-                        console.log('=== DEBUG: Worksheets to process ===');
-                        console.log('Sheet order:', sortedSheets.map(([name]) => name));
-
                         // Process each worksheet
                         sortedSheets.forEach(([sheetName, sheetInfo]) => {
                             const { allData, headers } = sheetInfo;
 
                             // Smart column detection
                             const columnMap = this.findColumnsSmartly(headers);
-
-                            // DEBUG: Log column detection for this sheet
-                            console.log(`\n=== DEBUG: Processing ${sheetName} ===`);
-                            console.log('Column detection:', {
-                                keywordText: columnMap.keywordText,
-                                campaignNameInfo: columnMap.campaignNameInfo,
-                                campaignName: columnMap.campaignName,
-                                productTargeting: columnMap.productTargeting
-                            });
-                            console.log('Total rows in sheet:', allData.length);
-
-                            // DEBUG: Log sample match keys from this sheet
-                            let sampleKeys = [];
-                            let keywordCount = 0;
 
                             // Filter rows: only Keyword/Product Targeting entities that match selected keywords
                             const filteredRows = allData.filter(row => {
@@ -2193,27 +2258,10 @@
                                 if (entity === 'keyword') {
                                     keywordText = String(this.getColumnValue(row, columnMap.keywordText) || '').toLowerCase().trim();
                                 } else if (entity === 'product targeting') {
-                                    // Extract ASIN from Product Targeting Expression
-                                    // Format can be: asin="B09CV3NHDL" or just B09CV3NHDL
-                                    let ptValue = String(this.getColumnValue(row, columnMap.productTargeting) || '').trim();
-
-                                    // Extract ASIN from asin="XXXX" format
-                                    const asinMatch = ptValue.match(/asin\s*=\s*"?([A-Z0-9]+)"?/i);
-                                    if (asinMatch) {
-                                        keywordText = asinMatch[1].toLowerCase();
-                                    } else {
-                                        // Fallback: use the raw value (might already be just the ASIN)
-                                        keywordText = ptValue.toLowerCase();
-                                    }
+                                    keywordText = String(this.getColumnValue(row, columnMap.productTargeting) || '').toLowerCase().trim();
                                 }
 
                                 const matchKey = `${campaignName}|${keywordText}`;
-
-                                // DEBUG: Collect sample keys
-                                keywordCount++;
-                                if (sampleKeys.length < 5) {
-                                    sampleKeys.push(matchKey);
-                                }
 
                                 // Check if already processed (for SB deduplication)
                                 if (processedKeywords.has(matchKey)) {
@@ -2226,11 +2274,6 @@
                                 }
                                 return false;
                             });
-
-                            // DEBUG: Log results for this sheet
-                            console.log(`Keywords/PT rows in ${sheetName}:`, keywordCount);
-                            console.log('Sample keys from bulk file:', sampleKeys);
-                            console.log('Matched rows:', filteredRows.length);
 
                             if (filteredRows.length > 0) {
                                 // Update State to 'paused' and add Operation='update' for all matched rows
@@ -2292,6 +2335,294 @@
                         this.hideLoading();
                         alert('Error generating bulk file. Please try again.');
                     }
+                }
+
+                // Debug Mode Helper Functions
+                renderDebugLog() {
+                    const tbody = document.getElementById('debugLogTableBody');
+                    if (!this.debugLog || this.debugLog.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #9ca3af;">No debug data available</td></tr>';
+                        return;
+                    }
+
+                    const searchTerm = (document.getElementById('debugLogSearch')?.value || '').toLowerCase();
+                    const filteredLog = searchTerm
+                        ? this.debugLog.filter(entry =>
+                            entry.keyword.toLowerCase().includes(searchTerm) ||
+                            entry.asin.toLowerCase().includes(searchTerm) ||
+                            entry.reason.toLowerCase().includes(searchTerm)
+                        )
+                        : this.debugLog;
+
+                    if (filteredLog.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: #9ca3af;">No matches found</td></tr>';
+                        return;
+                    }
+
+                    tbody.innerHTML = filteredLog.map(entry => {
+                        const decisionColors = {
+                            'KEEP': { bg: '#f0fdf4', text: '#15803d' },
+                            'PAUSE': { bg: '#fef2f2', text: '#dc2626' },
+                            'Skipped': { bg: '#fef3c7', text: '#f59e0b' },
+                            'FILTERED': { bg: '#fef3c7', text: '#ea580c' },
+                            'INFO': { bg: '#eff6ff', text: '#1d4ed8' },
+                            'PARSED': { bg: '#f5f3ff', text: '#6d28d9' }
+                        };
+                        const colors = decisionColors[entry.decision] || { bg: '#f3f4f6', text: '#4b5563' };
+                        const rowNum = entry.rowNumber || '';
+
+                        return `
+                            <tr style="border-bottom: 1px solid #e5e7eb;">
+                                <td style="padding: 12px 8px; color: #9ca3af; font-size: 12px;">${rowNum}</td>
+                                <td style="padding: 12px 8px; font-weight: 500;">${entry.keyword}</td>
+                                <td style="padding: 12px 8px; color: #6b7280;">${entry.asin}</td>
+                                <td style="padding: 12px 8px; color: #6b7280;">${entry.matchType}</td>
+                                <td style="padding: 12px 8px;">
+                                    <span style="background: ${colors.bg}; color: ${colors.text}; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">${entry.decision}</span>
+                                </td>
+                                <td style="padding: 12px 8px; color: #374151; font-size: 13px;">${entry.reason}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                filterDebugLog() {
+                    this.renderDebugLog();
+                }
+
+                // New Chapter-Based Debug Rendering
+                toggleChapter(chapterId) {
+                    const content = document.getElementById(`chapter${chapterId.charAt(0).toUpperCase() + chapterId.slice(1)}`);
+                    const toggle = document.getElementById(`${chapterId}Toggle`);
+
+                    if (content.style.display === 'none') {
+                        content.style.display = 'block';
+                        toggle.textContent = '▲';
+                    } else {
+                        content.style.display = 'none';
+                        toggle.textContent = '▼';
+                    }
+                }
+
+                renderDebugChapters() {
+                    if (!this.debugLog || this.debugLog.length === 0) return;
+
+                    // Organize debug log into chapters
+                    const filtered = this.debugLog.filter(e => e.decision === 'FILTERED');
+                    const skipped = this.debugLog.filter(e => e.decision === 'Skipped');
+                    const parsed = this.debugLog.filter(e => e.decision === 'PARSED');
+                    const info = this.debugLog.filter(e => e.decision === 'INFO');
+                    const decisions = this.debugLog.filter(e => e.decision === 'KEEP' || e.decision === 'PAUSE');
+
+                    // Update chapter counts
+                    document.getElementById('filteredCount').textContent = `(${filtered.length} rows)`;
+                    document.getElementById('skippedCount').textContent = `(${skipped.length} rows)`;
+                    document.getElementById('analysisCount').textContent = `(${this.results ? this.results.length - this.zeroSalesKeywords.length : 0} keywords)`;
+                    document.getElementById('decisionsCount').textContent = `(${this.duplicates ? Object.keys(this.duplicates).length : 0} groups)`;
+                    document.getElementById('debugUniqueCount').textContent = this.results ? this.results.length - decisions.filter(d => d.decision === 'PAUSE').length : 0;
+
+                    // Render Chapter 2: Filtered Rows
+                    if (filtered.length > 0) {
+                        document.getElementById('filteredTable').innerHTML = `
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #fef3c7; text-align: left;">
+                                        <th style="padding: 8px; width: 60px;">Row #</th>
+                                        <th style="padding: 8px;">Keyword</th>
+                                        <th style="padding: 8px;">ASIN</th>
+                                        <th style="padding: 8px; width: 150px;">Why?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${filtered.map(e => `
+                                        <tr style="border-bottom: 1px solid #fde68a;">
+                                            <td style="padding: 8px; color: #9ca3af;">${e.rowNumber || ''}</td>
+                                            <td style="padding: 8px;">${e.keyword}</td>
+                                            <td style="padding: 8px;">${e.asin}</td>
+                                            <td style="padding: 8px; color: #92400e;" title="${e.reason}">${e.reason.includes('Missing Keyword') ? 'No keyword' : e.reason.includes('Missing ASIN') ? 'No ASIN' : e.reason.includes('Campaign Paused') ? 'Campaign Paused' : e.reason.includes('Keyword Paused') ? 'Keyword Paused' : e.reason}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                            <p style="font-size: 12px; color: #78350f; margin-top: 8px;">Total filtered: ${filtered.length} rows (${((filtered.length / this.totalUploadedRows) * 100).toFixed(1)}% of upload)</p>
+                        `;
+                    } else {
+                        document.getElementById('filteredTable').innerHTML = '<p style="color: #9ca3af; font-style: italic;">No rows were filtered</p>';
+                    }
+
+                    // Render Chapter 3: Skipped Keywords
+                    if (skipped.length > 0) {
+                        document.getElementById('skippedTable').innerHTML = `
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #fef9c3; text-align: left;">
+                                        <th style="padding: 8px; width: 60px;">Row #</th>
+                                        <th style="padding: 8px;">Keyword</th>
+                                        <th style="padding: 8px;">ASIN</th>
+                                        <th style="padding: 8px; width: 100px;">Match Type</th>
+                                        <th style="padding: 8px; width: 120px;">Sales Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${skipped.slice(0, 50).map(e => `
+                                        <tr style="border-bottom: 1px solid #fde047;">
+                                            <td style="padding: 8px; color: #9ca3af;">${e.rowNumber || ''}</td>
+                                            <td style="padding: 8px;">${e.keyword}</td>
+                                            <td style="padding: 8px;">${e.asin}</td>
+                                            <td style="padding: 8px;">${e.matchType}</td>
+                                            <td style="padding: 8px; color: #a16207;" title="${e.reason}">${e.reason.includes('Empty') ? 'Empty field' : '$0.00'}</td>
+                                        </tr>
+                                    `).join('')}
+                                    ${skipped.length > 50 ? `<tr><td colspan="5" style="padding: 12px; text-align: center; color: #9ca3af; font-style: italic;">Showing first 50 of ${skipped.length} rows</td></tr>` : ''}
+                                </tbody>
+                            </table>
+                            <p style="font-size: 12px; color: #a16207; margin-top: 8px;">Total skipped: ${skipped.length} rows (${((skipped.length / this.totalUploadedRows) * 100).toFixed(1)}% of upload)</p>
+                        `;
+                    } else {
+                        document.getElementById('skippedTable').innerHTML = '<p style="color: #9ca3af; font-style: italic;">No keywords were skipped</p>';
+                    }
+
+                    // Render Chapter 4: Analysis & Grouping
+                    const scoringInfo = info.find(e => e.keyword === '📊 SCORING SETUP');
+                    let analysisHTML = '<div>';
+
+                    if (scoringInfo) {
+                        analysisHTML += `
+                            <div style="background: #eff6ff; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #bfdbfe;">
+                                <div style="font-weight: 600; color: #1e40af; margin-bottom: 4px;">Step 1: Score Calculation</div>
+                                <div style="font-size: 12px; color: #1e3a8a;">${scoringInfo.reason}</div>
+                            </div>
+                        `;
+                    }
+
+                    if (parsed.length > 0) {
+                        analysisHTML += `
+                            <div style="background: #f5f3ff; padding: 12px; border-radius: 6px; border: 1px solid #ddd6fe;">
+                                <div style="font-weight: 600; color: #5b21b6; margin-bottom: 8px;">Step 2: Campaign Parsing</div>
+                                <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                    <thead>
+                                        <tr style="background: #ede9fe; text-align: left;">
+                                            <th style="padding: 6px; width: 60px;">Row #</th>
+                                            <th style="padding: 6px;">Keyword</th>
+                                            <th style="padding: 6px;">Campaign</th>
+                                            <th style="padding: 6px; width: 200px;">Extracted Info</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${parsed.slice(0, 10).map(e => {
+                            const shortCampaign = e.reason.match(/Campaign: "([^"]+)"/)?.[1] || '';
+                            // Extract product, type, and match for cleaner display
+                            const productMatch = e.reason.match(/Product: "([^"]+)"/);
+                            const typeMatch = e.reason.match(/Type: ([^\|]+)/);
+                            const matchTypeMatch = e.reason.match(/Match: (\w+)/);
+
+                            const product = productMatch ? productMatch[1] : '';
+                            const type = typeMatch ? typeMatch[1].trim() : '';
+                            const matchType = matchTypeMatch ? matchTypeMatch[1] : '';
+
+                            const cleanInfo = `${product} • ${type} • ${matchType}`;
+
+                            return `
+                                                \u003ctr style="border-bottom: 1px solid #ddd6fe;">
+                                                    \u003ctd style="padding: 6px; color: #9ca3af;">${e.rowNumber || ''}\u003c/td>
+                                                    \u003ctd style="padding: 6px;">${e.keyword}\u003c/td>
+                                                    \u003ctd style="padding: 6px;" title="${shortCampaign}">${shortCampaign}\u003c/td>
+                                                    \u003ctd style="padding: 6px; font-size: 11px; color: #4b5563;">${cleanInfo}\u003c/td>
+                                                \u003c/tr>
+                                            `;
+                        }).join('')}
+                                        ${parsed.length > 10 ? `<tr><td colspan="4" style="padding: 8px; text-align: center; color: #9ca3af; font-style: italic;">Showing first 10 of ${parsed.length} parsed keywords</td></tr>` : ''}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `;
+                    }
+
+                    analysisHTML += '</div>';
+                    document.getElementById('analysisDetails').innerHTML = analysisHTML || '<p style="color: #9ca3af; font-style: italic;">No analysis data available</p>';
+
+                    // Render Chapter 5: Final Decisions
+                    if (this.duplicates && Object.keys(this.duplicates).length > 0) {
+                        let decisionsHTML = '';
+                        let groupNum = 0;
+
+                        for (const [groupKey, group] of Object.entries(this.duplicates)) {
+                            if (groupNum >= 5) {
+                                decisionsHTML += `<p style="text-align: center; color: #9ca3af; font-style: italic; margin-top: 12px;">Showing first 5 of ${Object.keys(this.duplicates).length} duplicate groups</p>`;
+                                break;
+                            }
+
+                            groupNum++;
+                            const paused = group.filter(k => k.recommendation === 'remove');
+                            const kept = group.filter(k => k.recommendation === 'keep');
+
+                            decisionsHTML += `
+                                <div style="background: #f0fdf4; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #86efac;">
+                                    <div style="font-weight: 600; color: #15803d; margin-bottom: 8px;">Group ${groupNum}: "${group[0].name}" (${group.length} keywords)</div>
+                                    <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                                        <thead>
+                                            <tr style="background: #dcfce7; text-align: left;">
+                                                <th style="padding: 6px; width: 60px;">Row #</th>
+                                                <th style="padding: 6px;">Campaign</th>
+                                                <th style="padding: 6px; width: 80px;">Score</th>
+                                                <th style="padding: 6px; width: 100px;">Decision</th>
+                                                <th style="padding: 6px;">Why?</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${group.map(k => {
+                                const isKeep = k.recommendation === 'keep';
+                                const reason = isKeep ? 'Top score' : `Lower (${k.compositeScore} vs ${kept[0]?.compositeScore || 'N/A'})`;
+                                return `
+                                                    <tr style="border-bottom: 1px solid #86efac;">
+                                                        <td style="padding: 6px; color: #9ca3af;">${k.rowNumber || ''}</td>
+                                                        <td style="padding: 6px;" title="${k.campaign}">${k.campaign}</td>
+                                                        <td style="padding: 6px; font-weight: 600;">${k.compositeScore}</td>
+                                                        <td style="padding: 6px;">
+                                                            <span style="background: ${isKeep ? '#dcfce7' : '#fef2f2'}; color: ${isKeep ? '#15803d' : '#dc2626'}; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 600;">${isKeep ? '✅ KEEP' : '🔴 PAUSE'}</span>
+                                                        </td>
+                                                        <td style="padding: 6px; color: #6b7280; font-size: 11px;" title="${reason}">${reason}</td>
+                                                    </tr>
+                                                `;
+                            }).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            `;
+                        }
+
+                        decisionsHTML += `<p style="font-size: 12px; color: #15803d; font-weight: 600; margin-top: 12px;">Summary: ${decisions.filter(d => d.decision === 'PAUSE').length} keywords to pause, ${this.results.length - decisions.filter(d => d.decision === 'PAUSE').length} unique keywords to keep</p>`;
+                        document.getElementById('decisionsTable').innerHTML = decisionsHTML;
+                    } else {
+                        document.getElementById('decisionsTable').innerHTML = '<p style="color: #9ca3af; font-style: italic;">No duplicate groups found</p>';
+                    }
+                }
+
+                exportDebugLog() {
+                    if (!this.debugLog || this.debugLog.length === 0) {
+                        alert('No debug data to export');
+                        return;
+                    }
+
+                    const csvContent = [
+                        ['Keyword', 'ASIN', 'Match Type', 'Decision', 'Reason'].join(','),
+                        ...this.debugLog.map(entry => [
+                            `"${entry.keyword}"`,
+                            `"${entry.asin}"`,
+                            `"${entry.matchType}"`,
+                            `"${entry.decision}"`,
+                            `"${entry.reason}"`
+                        ].join(','))
+                    ].join('\n');
+
+                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    const timestamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                    a.download = `debug_log_${timestamp}.csv`;
+                    a.click();
+                    URL.revokeObjectURL(url);
                 }
             }
 
