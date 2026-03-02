@@ -768,44 +768,117 @@
                         <div style="padding: 16px; border-bottom: 1px solid #bfdbfe;">
                             <h4 style="color: #0c4a6e; font-size: 16px; font-weight: 600; margin: 0;">📊 Chapter 1:
                                 Upload Summary</h4>
-                            <p style="color: #075985; font-size: 12px; margin: 4px 0 0 0;">Complete overview of data
-                                processing</p>
+                            <p style="color: #075985; font-size: 12px; margin: 4px 0 0 0;">A complete breakdown of every
+                                keyword and product targeting row in your bulk file — what happened to each one and why
+                            </p>
                         </div>
                         <div style="padding: 16px;">
-                            <div class="summary-grid"
-                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
+                            <!-- Explanation box -->
+                            <div
+                                style="background: #eff6ff; padding: 12px; border-radius: 6px; border: 1px solid #bfdbfe; margin-bottom: 16px;">
+                                <p style="font-size: 12px; color: #1e40af; margin: 0; line-height: 1.6;">
+                                    <strong>How to read these numbers:</strong> Your bulk file contains keywords and
+                                    product targeting rows across multiple sheets (Sponsored Products, Sponsored Brands,
+                                    etc).
+                                    The tool reads ALL of them, then sorts each row into one of four categories below.
+                                    <strong>The math always adds up:</strong> Total = Filtered + Zero Sales + SB Deduped
+                                    + Analyzed.
+                                </p>
+                            </div>
+                            <!-- 5 counter boxes -->
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+                                <!-- Box 1: Total -->
                                 <div
-                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #bfdbfe;">
-                                    <div style="font-size: 11px; color: #0369a1; font-weight: 600;">✓ UPLOADED</div>
+                                    style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #bfdbfe;">
+                                    <div
+                                        style="font-size: 10px; color: #0369a1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        📥 Total Keywords + PT</div>
+                                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">All rows from all
+                                        sheets in your file</div>
                                     <div id="debugTotalUploaded"
-                                        style="font-size: 24px; color: #0c4a6e; font-weight: 700;">0</div>
-                                </div>
-                                <div
-                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #fed7aa;">
-                                    <div style="font-size: 11px; color: #9a3412; font-weight: 600;">⚠️ FILTERED</div>
-                                    <div id="debugFiltered" style="font-size: 24px; color: #7c2d12; font-weight: 700;">0
+                                        style="font-size: 28px; color: #0c4a6e; font-weight: 700; margin-top: 4px;">0
                                     </div>
                                 </div>
+                                <!-- Box 2: Filtered -->
                                 <div
-                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #fde68a;">
-                                    <div style="font-size: 11px; color: #92400e; font-weight: 600;">⏭️ SKIPPED</div>
-                                    <div id="debugZeroSales" style="font-size: 24px; color: #78350f; font-weight: 700;">
-                                        0</div>
+                                    style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fed7aa;">
+                                    <div
+                                        style="font-size: 10px; color: #9a3412; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        ⚠️ Filtered Out</div>
+                                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Rows with missing
+                                        keyword text or campaign name — can't process these</div>
+                                    <div id="debugFiltered"
+                                        style="font-size: 28px; color: #7c2d12; font-weight: 700; margin-top: 4px;">0
+                                    </div>
                                 </div>
+                                <!-- Box 3: Zero Sales -->
                                 <div
-                                    style="background: white; padding: 12px; border-radius: 6px; border: 1px solid #93c5fd;">
-                                    <div style="font-size: 11px; color: #1e40af; font-weight: 600;">✓ PROCESSED</div>
+                                    style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #fde68a;">
+                                    <div
+                                        style="font-size: 10px; color: #92400e; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        ⏭️ Zero Sales</div>
+                                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Keywords with $0 or
+                                        empty sales — can't compare ACOS without sales</div>
+                                    <div id="debugZeroSales"
+                                        style="font-size: 28px; color: #78350f; font-weight: 700; margin-top: 4px;">0
+                                    </div>
+                                </div>
+                                <!-- Box 4: SB Deduped -->
+                                <div
+                                    style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #c4b5fd;">
+                                    <div
+                                        style="font-size: 10px; color: #6d28d9; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        🔄 SB Deduped</div>
+                                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">SB Multi Ad Group
+                                        rows already present in main SB sheet — skipped to avoid counting twice</div>
+                                    <div id="debugSBDeduped"
+                                        style="font-size: 28px; color: #5b21b6; font-weight: 700; margin-top: 4px;">0
+                                    </div>
+                                </div>
+                                <!-- Box 5: Analyzed -->
+                                <div
+                                    style="background: white; padding: 14px; border-radius: 8px; border: 1px solid #86efac;">
+                                    <div
+                                        style="font-size: 10px; color: #15803d; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                                        ✅ Analyzed</div>
+                                    <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Keywords with sales
+                                        data that were scored and checked for duplicates</div>
                                     <div id="debugTotalProcessed"
-                                        style="font-size: 24px; color: #1e3a8a; font-weight: 700;">0</div>
+                                        style="font-size: 28px; color: #166534; font-weight: 700; margin-top: 4px;">0
+                                    </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #bfdbfe;">
+
+                            <!-- Math check line -->
+                            <div id="debugMathCheck"
+                                style="margin-top: 12px; padding: 10px 14px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; font-size: 12px; color: #166534; font-weight: 500; display: none;">
+                                ✅ Math check: <span id="debugMathFormula"></span>
+                            </div>
+
+                            <!-- Per-sheet breakdown -->
+                            <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #bfdbfe;">
+                                <div style="font-size: 12px; color: #0c4a6e; font-weight: 600; margin-bottom: 8px;">📋
+                                    Per-Sheet Breakdown:</div>
+                                <div id="debugSheetBreakdown"
+                                    style="font-size: 12px; color: #334155; line-height: 1.8;"></div>
+                            </div>
+
+                            <!-- Results -->
+                            <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid #bfdbfe;">
                                 <div style="font-size: 12px; color: #0c4a6e; font-weight: 600; margin-bottom: 8px;">📈
                                     Results:</div>
-                                <div style="display: flex; gap: 20px; font-size: 12px; color: #075985;">
-                                    <span>Duplicate Groups: <strong id="debugDuplicateGroups">0</strong></span>
-                                    <span>To Pause: <strong id="debugMarkedForRemoval">0</strong></span>
-                                    <span>Unique Keywords: <strong id="debugUniqueCount">0</strong></span>
+                                <div
+                                    style="display: flex; gap: 20px; font-size: 12px; color: #075985; flex-wrap: wrap;">
+                                    <span>Duplicate Groups: <strong id="debugDuplicateGroups">0</strong> <span
+                                            style="color: #94a3b8; font-weight: normal;">(keywords appearing in 2+
+                                            campaigns)</span></span>
+                                    <span>To Pause: <strong id="debugMarkedForRemoval">0</strong> <span
+                                            style="color: #94a3b8; font-weight: normal;">(lower-performing
+                                            duplicates)</span></span>
+                                    <span>Unique Keywords: <strong id="debugUniqueCount">0</strong> <span
+                                            style="color: #94a3b8; font-weight: normal;">(after removing
+                                            duplicates)</span></span>
                                 </div>
                             </div>
                         </div>
@@ -823,13 +896,24 @@
                                 </div>
                                 <span id="filteredToggle" style="color: #92400e; font-size: 18px;">▼</span>
                             </div>
-                            <p style="font-size: 12px; color: #78350f; margin: 4px 0 0 0;">Why excluded? Missing keyword
-                                or ASIN data</p>
+                            <p style="font-size: 12px; color: #78350f; margin: 4px 0 0 0;">Rows removed before analysis
+                                — they were missing essential data</p>
                         </div>
                         <div id="chapterFiltered" class="chapter-content"
                             style="display: none; padding: 16px; background: white; border: 1px solid #fde68a; border-top: none; border-radius: 0 0 6px 6px;">
-                            <p style="font-size: 13px; color: #78350f; margin-bottom: 12px;">These rows were removed
-                                before analysis because they're missing critical data.</p>
+                            <div
+                                style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #fde68a;">
+                                <p style="font-size: 13px; color: #78350f; margin: 0; line-height: 1.6;">
+                                    <strong>What is a "filtered" row?</strong> Before the tool can analyze a keyword, it
+                                    needs two pieces of information: (1) the keyword text itself (what the customer
+                                    searches for), and (2) the campaign name (which product listing it belongs to). If
+                                    either of these is missing or empty in your bulk file, the tool cannot process that
+                                    row, so it removes it from the analysis. This also includes exact duplicate rows —
+                                    if the same keyword appears twice in the same campaign (identical Campaign ID +
+                                    Keyword Text), the second copy is filtered out because it's a data duplicate, not a
+                                    real advertising duplicate.
+                                </p>
+                            </div>
                             <div id="filteredTable"></div>
                         </div>
                     </div>
@@ -846,13 +930,24 @@
                                 </div>
                                 <span id="skippedToggle" style="color: #854d0e; font-size: 18px;">▼</span>
                             </div>
-                            <p style="font-size: 12px; color: #a16207; margin: 4px 0 0 0;">Why skipped? Zero or empty
-                                sales data</p>
+                            <p style="font-size: 12px; color: #a16207; margin: 4px 0 0 0;">Keywords with zero or empty
+                                sales — excluded from duplicate comparison</p>
                         </div>
                         <div id="chapterSkipped" class="chapter-content"
                             style="display: none; padding: 16px; background: white; border: 1px solid #fde047; border-top: none; border-radius: 0 0 6px 6px;">
-                            <p style="font-size: 13px; color: #a16207; margin-bottom: 12px;">These keywords have no
-                                sales, so they can't be compared for duplicates.</p>
+                            <div
+                                style="background: #fef9c3; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #fde047;">
+                                <p style="font-size: 13px; color: #854d0e; margin: 0; line-height: 1.6;">
+                                    <strong>Why are these keywords skipped?</strong> The tool compares duplicate
+                                    keywords by looking at their ACOS (Advertising Cost of Sale) to decide which one
+                                    performs better. ACOS is calculated as Spend ÷ Sales. If a keyword has $0 in sales
+                                    (or the sales field is empty in the bulk file), there's no way to calculate ACOS, so
+                                    the tool cannot compare it against other copies. These keywords are set aside —
+                                    they're still listed in your bulk file, but they don't participate in the duplicate
+                                    comparison. <strong>"Empty field"</strong> means the sales column was blank in the
+                                    file. <strong>"$0.00"</strong> means the sales value was explicitly zero.
+                                </p>
+                            </div>
                             <div id="skippedTable"></div>
                         </div>
                     </div>
@@ -870,11 +965,24 @@
                                 </div>
                                 <span id="analysisToggle" style="color: #5b21b6; font-size: 18px;">▼</span>
                             </div>
-                            <p style="font-size: 12px; color: #6d28d9; margin: 4px 0 0 0;">How analyzed? Scoring,
-                                campaign parsing, grouping by match type</p>
+                            <p style="font-size: 12px; color: #6d28d9; margin: 4px 0 0 0;">How each keyword was scored
+                                and grouped for duplicate detection</p>
                         </div>
                         <div id="chapterAnalysis" class="chapter-content"
                             style="display: none; padding: 16px; background: white; border: 1px solid #ddd6fe; border-top: none; border-radius: 0 0 6px 6px;">
+                            <div
+                                style="background: #f5f3ff; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #ddd6fe;">
+                                <p style="font-size: 13px; color: #5b21b6; margin: 0; line-height: 1.6;">
+                                    <strong>How does analysis work?</strong> Each keyword with sales data goes through
+                                    two steps. <strong>Step 1 — Scoring:</strong> The tool calculates a performance
+                                    score for each keyword using three factors: ACOS (lower is better), Conversion Rate
+                                    (higher is better), and Sales volume (higher is better). You control how much weight
+                                    each factor gets using the sliders above. <strong>Step 2 — Grouping:</strong>
+                                    Keywords are grouped as "duplicates" when they share the same keyword text + same
+                                    ASIN + same product variation + same match type, but appear in different campaigns.
+                                    Only groups with 2 or more keywords are considered duplicates.
+                                </p>
+                            </div>
                             <div id="analysisDetails"></div>
                         </div>
                     </div>
@@ -892,11 +1000,22 @@
                                 </div>
                                 <span id="decisionsToggle" style="color: #15803d; font-size: 18px;">▼</span>
                             </div>
-                            <p style="font-size: 12px; color: #16a34a; margin: 4px 0 0 0;">What to pause? Keywords with
-                                lower scores in duplicate groups</p>
+                            <p style="font-size: 12px; color: #16a34a; margin: 4px 0 0 0;">Which duplicates to keep and
+                                which to pause — based on performance scores</p>
                         </div>
                         <div id="chapterDecisions" class="chapter-content"
                             style="display: none; padding: 16px; background: white; border: 1px solid #86efac; border-top: none; border-radius: 0 0 6px 6px;">
+                            <div
+                                style="background: #dcfce7; padding: 12px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #86efac;">
+                                <p style="font-size: 13px; color: #15803d; margin: 0; line-height: 1.6;">
+                                    <strong>How does the tool decide?</strong> For each duplicate group, the tool sorts
+                                    all copies by their performance score (highest first). The keyword with the
+                                    <strong>best score is marked KEEP</strong> — this is your best-performing copy and
+                                    should stay active. All other copies in the group are marked <strong>PAUSE</strong>
+                                    — these are lower-performing duplicates that are wasting your ad spend. You can
+                                    review and override any decision before generating the bulk file.
+                                </p>
+                            </div>
                             <div id="decisionsTable"></div>
                         </div>
                     </div>
@@ -1243,10 +1362,18 @@
                         return;
                     }
 
+                    // Auto-enable Debug Mode to capture all processing steps
+                    this.debugMode = true;
+                    this.debugLog = [];
+                    document.getElementById('debugModeToggle').checked = true;
+                    document.getElementById('debugPanel').style.display = 'block';
+
                     this.showLoading('Processing Bulk File', 'Building ASIN lookup maps...');
 
                     try {
                         this.keywords = [];
+                        this.totalUploadedRows = 0;
+                        this.filteredRowsCount = 0;
                         let idCounter = 1;
 
                         // Step 1: Build ASIN lookup maps for each worksheet
@@ -1310,9 +1437,20 @@
                             return getPriority(nameA) - getPriority(nameB);
                         });
 
-                        // Step 3: Process keywords from each worksheet
+                        // Step 3: Deduplicate rows (same Campaign ID + Keyword Text)
+                        const seenRows = new Set();
+
+                        // Step 4: Process keywords from each worksheet
                         let processedCount = 0;
                         const totalRows = sortedSheets.reduce((sum, [_, sheet]) => sum + sheet.keywordData.length, 0);
+                        // UPLOADED count = ALL sheets (so the math always adds up)
+                        this.totalUploadedRows = totalRows;
+                        this.sbDedupedCount = 0; // Track SB Multi rows skipped as duplicates of SB
+                        // Per-sheet breakdown tracking
+                        this.sheetBreakdown = {};
+                        sortedSheets.forEach(([name, sheet]) => {
+                            this.sheetBreakdown[name] = { total: sheet.keywordData.length, deduped: 0 };
+                        });
 
                         for (const [sheetName, sheet] of sortedSheets) {
                             if (sheet.keywordData.length === 0) continue;
@@ -1337,6 +1475,8 @@
 
                                     // SB Deduplication: Skip if this is Multi Ad Group and campaign exists in main SB
                                     if (isSBMulti && sbCampaignNames.has(campaignName.toLowerCase().trim())) {
+                                        this.sbDedupedCount++;
+                                        if (this.sheetBreakdown[sheetName]) this.sheetBreakdown[sheetName].deduped++;
                                         return; // Skip this keyword - already processed from main SB sheet
                                     }
 
@@ -1356,6 +1496,40 @@
                                             keywordText = targetingExpr;
                                         }
                                     }
+
+                                    // Debug: Filter rows missing keyword or campaign
+                                    if (!keywordText || !campaignName) {
+                                        this.filteredRowsCount++;
+                                        if (this.debugMode) {
+                                            this.debugLog.push({
+                                                rowNumber: processedCount + 1,
+                                                keyword: keywordText || '(empty)',
+                                                asin: '',
+                                                matchType: 'Unknown',
+                                                decision: 'FILTERED',
+                                                reason: !keywordText ? 'Missing Keyword Text - Row excluded' : 'Missing Campaign Name - Row excluded'
+                                            });
+                                        }
+                                        return;
+                                    }
+
+                                    // Fix 4: Deduplicate identical rows (same Campaign ID + Keyword Text)
+                                    const dedupeKey = `${campaignId}|${keywordText.toLowerCase().trim()}`;
+                                    if (seenRows.has(dedupeKey)) {
+                                        this.filteredRowsCount++;
+                                        if (this.debugMode) {
+                                            this.debugLog.push({
+                                                rowNumber: processedCount + 1,
+                                                keyword: keywordText,
+                                                asin: '',
+                                                matchType: '',
+                                                decision: 'FILTERED',
+                                                reason: 'Duplicate row (same Campaign ID + Keyword) - Already processed'
+                                            });
+                                        }
+                                        return;
+                                    }
+                                    seenRows.add(dedupeKey);
 
                                     // Get ASIN from lookup map (via Campaign ID)
                                     const productAsin = sheetAsinMap[campaignId] || '';
@@ -1378,29 +1552,51 @@
                                     const clicks = allMetrics['Clicks'] || 0;
                                     const impressions = allMetrics['Impressions'] || 0;
                                     const orders = allMetrics['Orders'] || allMetrics['7 Day Total Orders (#)'] || 0;
-                                    const acos = sales > 0 ? (spend / sales) * 100 : 0;
-                                    const conversion = clicks > 0 ? (orders / clicks) * 100 : 0;
 
-                                    if (keywordText && campaignName) {
-                                        this.keywords.push({
-                                            id: `bulk_${idCounter++}`,
-                                            name: keywordText,
+                                    // Fix 2: Use raw ACOS/Conversion from file when available
+                                    const rawAcos = allMetrics['ACOS'];
+                                    const acos = (rawAcos !== undefined && rawAcos !== null && !isNaN(rawAcos))
+                                        ? rawAcos
+                                        : (sales > 0 ? (spend / sales) * 100 : 0);
+
+                                    const rawConversion = allMetrics['Conversion Rate'];
+                                    const conversion = (rawConversion !== undefined && rawConversion !== null && !isNaN(rawConversion))
+                                        ? rawConversion
+                                        : (clicks > 0 ? (orders / clicks) * 100 : 0);
+
+                                    this.keywords.push({
+                                        id: `bulk_${idCounter++}`,
+                                        name: keywordText,
+                                        asin: productAsin,
+                                        targetAsin: targetAsin,
+                                        campaign: campaignName,
+                                        adGroup: adGroupName,
+                                        matchType: matchType,
+                                        entityType: entity,
+                                        sales: sales,
+                                        acos: acos,
+                                        conversion: conversion,
+                                        impressions: impressions,
+                                        clicks: clicks,
+                                        orders: orders,
+                                        spend: spend,
+                                        allMetrics: allMetrics,
+                                        sheetName: sheetName,
+                                        campaignId: campaignId
+                                    });
+
+                                    // Debug: Log parsed entry
+                                    if (this.debugMode) {
+                                        const parsed = this.parseCampaignName(campaignName);
+                                        this.debugLog.push({
+                                            rowNumber: processedCount + 1,
+                                            keyword: keywordText,
                                             asin: productAsin,
-                                            targetAsin: targetAsin,
-                                            campaign: campaignName,
-                                            adGroup: adGroupName,
                                             matchType: matchType,
-                                            entityType: entity,
-                                            sales: sales,
-                                            acos: acos,
-                                            conversion: conversion,
-                                            impressions: impressions,
-                                            clicks: clicks,
-                                            orders: orders,
-                                            spend: spend,
-                                            allMetrics: allMetrics,
-                                            sheetName: sheetName,
-                                            campaignId: campaignId
+                                            decision: sales > 0 ? 'PARSED' : 'Skipped',
+                                            reason: sales > 0
+                                                ? `Campaign: "${campaignName.substring(0, 50)}" → Product: "${parsed.productVariation}" | Type: ${parsed.campaignType} | ACOS: ${acos.toFixed(1)}%`
+                                                : (spend > 0 ? 'Zero Sales (has spend $' + spend.toFixed(2) + ') - Excluded from duplicate grouping' : 'Zero Sales ($0.00) - Excluded from duplicate grouping')
                                         });
                                     }
                                 });
@@ -1934,12 +2130,45 @@
 
                     // Update debug stats if enabled
                     if (this.debugMode) {
-                        document.getElementById('debugTotalUploaded').textContent = this.totalUploadedRows;
-                        document.getElementById('debugFiltered').textContent = this.filteredRowsCount;
-                        document.getElementById('debugTotalProcessed').textContent = this.results.length - this.zeroSalesKeywords.length;
+                        const totalUp = this.totalUploadedRows || 0;
+                        const filteredN = this.filteredRowsCount || 0;
+                        const zeroSalesN = this.zeroSalesKeywords.length;
+                        const sbDedupN = this.sbDedupedCount || 0;
+                        const analyzedN = this.results.length - zeroSalesN;
+
+                        document.getElementById('debugTotalUploaded').textContent = totalUp.toLocaleString();
+                        document.getElementById('debugFiltered').textContent = filteredN.toLocaleString();
+                        document.getElementById('debugTotalProcessed').textContent = analyzedN.toLocaleString();
                         document.getElementById('debugDuplicateGroups').textContent = Object.keys(this.duplicates).length;
                         document.getElementById('debugMarkedForRemoval').textContent = this.selectedKeywordsToPause.size;
-                        document.getElementById('debugZeroSales').textContent = this.zeroSalesKeywords.length;
+                        document.getElementById('debugZeroSales').textContent = zeroSalesN.toLocaleString();
+                        document.getElementById('debugSBDeduped').textContent = sbDedupN.toLocaleString();
+
+                        // Math check line
+                        const mathSum = filteredN + zeroSalesN + sbDedupN + analyzedN;
+                        const mathEl = document.getElementById('debugMathCheck');
+                        const formulaEl = document.getElementById('debugMathFormula');
+                        if (mathEl && formulaEl) {
+                            const matches = (mathSum === totalUp);
+                            mathEl.style.display = 'block';
+                            mathEl.style.background = matches ? '#f0fdf4' : '#fef2f2';
+                            mathEl.style.borderColor = matches ? '#bbf7d0' : '#fecaca';
+                            mathEl.style.color = matches ? '#166534' : '#991b1b';
+                            mathEl.innerHTML = `${matches ? '✅' : '⚠️'} Math check: <span id="debugMathFormula">${totalUp.toLocaleString()} = ${filteredN.toLocaleString()} (filtered) + ${zeroSalesN.toLocaleString()} (zero sales) + ${sbDedupN.toLocaleString()} (SB deduped) + ${analyzedN.toLocaleString()} (analyzed) ${matches ? '✅ Numbers add up!' : '⚠️ Mismatch detected'}</span>`;
+                        }
+
+                        // Per-sheet breakdown
+                        const breakdownEl = document.getElementById('debugSheetBreakdown');
+                        if (breakdownEl && this.sheetBreakdown) {
+                            let html = '';
+                            Object.entries(this.sheetBreakdown).forEach(([name, info]) => {
+                                const shortName = name.replace(' Campaigns', '');
+                                const dedupText = info.deduped > 0 ? ` — <span style="color: #6d28d9;">${info.deduped.toLocaleString()} were deduped (already in main SB sheet)</span>` : '';
+                                html += `<div style="padding: 4px 0;">📄 <strong>${shortName}:</strong> ${info.total.toLocaleString()} keyword + product targeting rows${dedupText}</div>`;
+                            });
+                            breakdownEl.innerHTML = html;
+                        }
+
                         this.renderDebugChapters();
                     }
 
